@@ -1,11 +1,11 @@
 import bcrypt from 'bcrypt';
 import {
-  forgotPasswordSchema,
   LoginFormData,
+  ResetPasswordFormData,
   SignupFormData,
 } from './auth.schema';
 import { User } from './user.model';
-import { ConflictError, NotFoundError, UnauthorizedError } from '@/lib/errors';
+import { ConflictError, UnauthorizedError } from '@/lib/errors';
 import { connectDB } from '@/lib/db';
 import { jwtService } from '@/lib/jwt';
 
@@ -64,7 +64,7 @@ export const authService = {
     }
 
     const { resetToken, resetTokenExpiry } =
-      await jwtService.generateResetToken(user._id);
+      await jwtService.generateResetToken(user._id.toString());
 
     await User.findByIdAndUpdate(user._id, {
       passwordResetToken: resetToken,
@@ -72,5 +72,42 @@ export const authService = {
     });
 
     return { message: message };
+  },
+
+  async resetPassword(data: ResetPasswordFormData, token: string) {
+    await connectDB();
+    const { isValid, userId } = await jwtService.verifyResetToken(token);
+
+    if (!isValid || !userId) {
+      throw new ConflictError('Invalid or expired reset token');
+    }
+
+    const user = await User.findOne({
+      passwordResetToken: token,
+      passwordResetExpires: { $gt: new Date() },
+    });
+
+    if (!user || user._id.toString() !== userId) {
+      throw new ConflictError('Invalid or expired reset token');
+    }
+
+    const isSamePassword = await bcrypt.compare(data.password, user.password);
+    if (isSamePassword) {
+      throw new ConflictError(
+        'New password cannot be the same as your current password',
+      );
+    }
+
+    const hashedPassword = await bcrypt.hash(data.password, 12);
+
+    user.password = hashedPassword;
+    user.passwordResetToken = undefined;
+    user.passwordResetExpires = undefined;
+
+    await user.save();
+
+    return {
+      message: 'Password updated successfully',
+    };
   },
 };
