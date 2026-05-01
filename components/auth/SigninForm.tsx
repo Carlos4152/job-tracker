@@ -13,6 +13,7 @@ import {
   VStack,
   Icon,
   Link as ChakraLink,
+  HStack,
 } from '@chakra-ui/react';
 import { PasswordInput } from '@/components/ui/password-input';
 import useLogin from '@/hooks/auth/useSignin';
@@ -43,7 +44,7 @@ export function SigninForm() {
           </Stack>
 
           {/* Form Fields */}
-          <VStack gap={5} width="full" px={2}>
+          <Stack gap={5} width="full" px={2}>
             {/* Email Field */}
             <Field.Root invalid={!!errors.email}>
               <Field.Label>Email Address</Field.Label>
@@ -78,15 +79,24 @@ export function SigninForm() {
               Sign In
             </Button>
 
-            {/* Forgot Password Link */}
-            <ChakraLink textAlign="start" width="full" focusRing="none" asChild>
-              <NextLink href="/forgot-password">
-                <Text as="span" fontSize="sm">
-                  Forgot password?
-                </Text>
-              </NextLink>
-            </ChakraLink>
-          </VStack>
+            <Stack>
+              <Box display="flex" width="100%" fontSize="sm" gap={2}>
+                <Text>Don't have an account yet? </Text>
+                <ChakraLink focusRing="none" asChild color="blue.500">
+                  <NextLink href="/signup">Sign up</NextLink>
+                </ChakraLink>
+              </Box>
+              <ChakraLink
+                textAlign="start"
+                width="full"
+                focusRing="none"
+                asChild
+                fontSize="sm"
+              >
+                <NextLink href="/forgot-password">Forgot password?</NextLink>
+              </ChakraLink>
+            </Stack>
+          </Stack>
         </VStack>
       </Container>
     </Box>

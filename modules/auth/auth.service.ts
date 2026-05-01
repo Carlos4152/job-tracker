@@ -1,8 +1,13 @@
 import bcrypt from 'bcrypt';
-import { LoginFormData, SignupFormData } from './auth.schema';
+import {
+  forgotPasswordSchema,
+  LoginFormData,
+  SignupFormData,
+} from './auth.schema';
 import { User } from './user.model';
-import { ConflictError, UnauthorizedError } from '@/lib/errors';
+import { ConflictError, NotFoundError, UnauthorizedError } from '@/lib/errors';
 import { connectDB } from '@/lib/db';
+import { jwtService } from '@/lib/jwt';
 
 export const authService = {
   async signup(userData: SignupFormData) {
@@ -46,5 +51,26 @@ export const authService = {
         lastName: user.lastName,
       },
     };
+  },
+
+  async forgotPassword(email: string) {
+    await connectDB();
+    const message =
+      'If this email exists in our system, you will receive a password reset link shortly.';
+
+    const user = await User.findOne({ email: email });
+    if (!user) {
+      return { message: message };
+    }
+
+    const { resetToken, resetTokenExpiry } =
+      await jwtService.generateResetToken(user._id);
+
+    await User.findByIdAndUpdate(user._id, {
+      passwordResetToken: resetToken,
+      passwordResetExpires: resetTokenExpiry,
+    });
+
+    return { message: message };
   },
 };
