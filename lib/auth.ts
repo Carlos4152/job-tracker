@@ -11,22 +11,19 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         password: {},
       },
       authorize: async ({ email, password }) => {
-        const parsed = loginSchema.safeParse({
-          email: email,
-          password: password,
-        });
-
-        if (!parsed.success) {
-          throw new Error('Invalid credentials');
+        if (!email || !password) {
+          return null;
         }
 
-        const result = await authService.signin({
-          email: parsed.data.email,
-          password: parsed.data.password,
-        });
+        const parsed = loginSchema.safeParse({ email, password});
 
-        if (!result.user) {
-          throw new Error('Invalid credentials');
+        if (!parsed.success) {
+          return null;
+        }
+
+        const result = await authService.signin(parsed.data);
+        if (!result?.user) {
+          return null;
         }
 
         return {

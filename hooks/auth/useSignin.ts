@@ -28,10 +28,12 @@ export default function useLogin() {
         redirect: false,
       });
 
-      if (!result.ok) {
+      console.log(result);
+
+      if (result?.error) {
         toast.error(
           'Login Failed',
-          result.error || 'Invalid email or password. Please try again.',
+          'Invalid email or password. Please try again.',
         );
         return;
       }

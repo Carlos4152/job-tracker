@@ -1,5 +1,5 @@
 import { ConflictError } from '@/lib/errors';
-import { forgotPasswordSchema, resetPasswordSchema } from '@/modules/auth/auth.schema';
+import { resetPasswordSchema } from '@/modules/auth/auth.schema';
 import { authService } from '@/modules/auth/auth.service';
 import { NextRequest } from 'next/server';
 
@@ -15,13 +15,10 @@ export async function POST(req: NextRequest) {
       );
     }
 
-      const token = req.nextUrl.searchParams.get('token');
+    const token = req.nextUrl.searchParams.get('token');
 
     if (!token) {
-      return Response.json(
-        { error: 'Missing reset token' },
-        { status: 400 }
-      );
+      return Response.json({ error: 'Missing reset token' }, { status: 400 });
     }
 
     const result = await authService.resetPassword(parsed.data, token);
