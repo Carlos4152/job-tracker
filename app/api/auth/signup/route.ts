@@ -8,8 +8,6 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const parsed = signupSchema.safeParse(body);
 
-    console.log(parsed);
-
     if (!parsed.success) {
       return Response.json(
         { error: parsed.error.flatten().fieldErrors },

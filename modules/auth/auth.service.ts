@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
-import { SignupFormData } from './auth.schema';
+import { LoginFormData, SignupFormData } from './auth.schema';
 import { User } from './user.model';
-import { ConflictError } from '@/lib/errors';
+import { ConflictError, UnauthorizedError } from '@/lib/errors';
 import { connectDB } from '@/lib/db';
 
 export const authService = {
@@ -24,7 +24,26 @@ export const authService = {
       user: {
         id: user._id.toString(),
         email: user.email,
-        role: user.role,
+      },
+    };
+  },
+
+  async signin(userData: LoginFormData) {
+    await connectDB();
+
+    const user = await User.findOne({ email: userData.email });
+    if (!user) throw new UnauthorizedError('Invalid credentials');
+
+    const isValid = await bcrypt.compare(userData.password, user.password);
+    if (!isValid) throw new UnauthorizedError('Invalid credentials');
+
+    return {
+      message: 'Login successfully',
+      user: {
+        id: user._id.toString(),
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
       },
     };
   },

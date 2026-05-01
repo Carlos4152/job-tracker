@@ -2,6 +2,7 @@ import { Provider } from '@/components/ui/provider';
 import type { Metadata } from 'next';
 import { DM_Sans } from 'next/font/google';
 import { Toaster } from '@/components/ui/toaster';
+import { SessionProvider } from 'next-auth/react';
 
 const dmSans = DM_Sans({
   variable: '--font-dm-sans',
@@ -19,17 +20,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${dmSans.variable} h-full antialiased`}
-      suppressHydrationWarning
-    >
-      <body className="min-h-full flex flex-col" suppressHydrationWarning>
-        <Provider>
-          {children}
+    <html lang="en" className={`${dmSans.variable}`} suppressHydrationWarning>
+      <body suppressHydrationWarning>
+        <SessionProvider>
+          <Provider>
+            {children}
 
-          <Toaster />
-        </Provider>
+            <Toaster />
+          </Provider>
+        </SessionProvider>
       </body>
     </html>
   );
