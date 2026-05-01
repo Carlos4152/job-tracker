@@ -45,9 +45,7 @@ export default function useSignup() {
           'Your account has been created. Please sign in to continue.',
       );
 
-      setTimeout(() => {
-        router.push('/sign-in');
-      }, 2000);
+      router.push('/sign-in');
     } catch (error) {
       console.error('Signup error:', error);
       toast.error('Error', 'Something went wrong. Please try again.');

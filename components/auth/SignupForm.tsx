@@ -13,10 +13,12 @@ import {
   VStack,
   Link as ChakraLink,
   HStack,
+  Separator,
 } from '@chakra-ui/react';
 
 import useSignup from '@/hooks/auth/useSignup';
 import { PasswordInput } from '../ui/password-input';
+import GoogleButton from '../shared/GoogleButton';
 
 export function SignupForm() {
   const { handleSubmit, errors, register, isSubmitting } = useSignup();
@@ -44,6 +46,14 @@ export function SignupForm() {
               Your payment was successful! Just add your details to get started.
             </Text>
           </Stack>
+
+          <GoogleButton />
+
+          <HStack w="full" align="center">
+            <Separator flex="1" />
+            <Text px="2">or</Text>
+            <Separator flex="1" />
+          </HStack>
 
           {/* Form Fields */}
           <VStack gap={5} width="full" px={2}>
@@ -101,19 +111,15 @@ export function SignupForm() {
             </Button>
 
             {/* Sign In Link */}
-            <HStack textAlign="center" width="full" fontSize="sm">
-              <Text as="span" color="fg.muted">
-                Already have an account?{' '}
-              </Text>
-              <ChakraLink
-                asChild
-                color="blue.500"
-                _hover={{ textDecoration: 'underline' }}
-                focusRing="none"
-              >
-                <NextLink href="/sign-in">Sign in</NextLink>
-              </ChakraLink>
-            </HStack>
+
+            <Stack width="100%">
+              <Box display="flex" fontSize="sm" gap={2} justifyContent="center">
+                <Text> Already have an account? </Text>
+                <ChakraLink focusRing="none" asChild color="blue.500">
+                  <NextLink href="/sign-in">Sign in</NextLink>
+                </ChakraLink>
+              </Box>
+            </Stack>
           </VStack>
         </VStack>
       </Container>

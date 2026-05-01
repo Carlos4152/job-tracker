@@ -11,12 +11,13 @@ import {
   Stack,
   Text,
   VStack,
-  Icon,
   Link as ChakraLink,
   HStack,
+  Separator,
 } from '@chakra-ui/react';
 import { PasswordInput } from '@/components/ui/password-input';
 import useLogin from '@/hooks/auth/useSignin';
+import GoogleButton from '../shared/GoogleButton';
 
 export function SigninForm() {
   const { handleSubmit, errors, isSubmitting, register } = useLogin();
@@ -43,6 +44,14 @@ export function SigninForm() {
             </Text>
           </Stack>
 
+          <GoogleButton />
+
+          <HStack w="full" align="center">
+            <Separator flex="1" />
+            <Text px="2">or</Text>
+            <Separator flex="1" />
+          </HStack>
+
           {/* Form Fields */}
           <Stack gap={5} width="full" px={2}>
             {/* Email Field */}
@@ -66,6 +75,22 @@ export function SigninForm() {
               />
 
               <Field.ErrorText>{errors.password?.message}</Field.ErrorText>
+              <Stack
+                pt={1}
+                display="flex"
+                justifyContent="end"
+                alignItems="end"
+                width="100%"
+              >
+                <ChakraLink
+                  focusRing="none"
+                  asChild
+                  fontSize="sm"
+                  color="blue.500"
+                >
+                  <NextLink href="/forgot-password">Forgot password?</NextLink>
+                </ChakraLink>
+              </Stack>
             </Field.Root>
 
             {/* Submit Button */}
@@ -79,22 +104,13 @@ export function SigninForm() {
               Sign In
             </Button>
 
-            <Stack>
-              <Box display="flex" width="100%" fontSize="sm" gap={2}>
-                <Text>Don't have an account yet? </Text>
+            <Stack width="100%">
+              <Box display="flex" fontSize="sm" gap={2} justifyContent="center">
+                <Text>Don't have an account? </Text>
                 <ChakraLink focusRing="none" asChild color="blue.500">
-                  <NextLink href="/signup">Sign up</NextLink>
+                  <NextLink href="/sign-up">Create an account</NextLink>
                 </ChakraLink>
               </Box>
-              <ChakraLink
-                textAlign="start"
-                width="full"
-                focusRing="none"
-                asChild
-                fontSize="sm"
-              >
-                <NextLink href="/forgot-password">Forgot password?</NextLink>
-              </ChakraLink>
             </Stack>
           </Stack>
         </VStack>

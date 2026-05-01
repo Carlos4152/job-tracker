@@ -110,4 +110,30 @@ export const authService = {
       message: 'Password updated successfully',
     };
   },
+
+  async upsertGoogleUser(user: any) {
+    if (!user?.email) return false;
+
+    await connectDB();
+
+    try {
+      const existingUser = await User.findOne({ email: user.email });
+      if (existingUser) return true;
+
+      const [firstName, ...lastNameParts] = (user.name ?? '').split(' ');
+
+      await User.create({
+        email: user.email,
+        firstName: firstName || '',
+        lastName: lastNameParts.join(' ') || '',
+        provider: 'google',
+        password: null,
+      });
+
+      return true;
+    } catch (error) {
+      console.error('Failed to upsert Google user:', error);
+      return false;
+    }
+  },
 };

@@ -2,20 +2,28 @@ import { loginSchema } from '@/modules/auth/auth.schema';
 import { authService } from '@/modules/auth/auth.service';
 import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
+import Google from 'next-auth/providers/google';
+import { connectDB } from './db';
+import { User } from '@/modules/auth/user.model';
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
+    Google({
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    }),
     Credentials({
       credentials: {
         email: {},
         password: {},
       },
+
       authorize: async ({ email, password }) => {
         if (!email || !password) {
           return null;
         }
 
-        const parsed = loginSchema.safeParse({ email, password});
+        const parsed = loginSchema.safeParse({ email, password });
 
         if (!parsed.success) {
           return null;
@@ -26,12 +34,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           return null;
         }
 
-        return {
-          id: result.user.id,
-          email: result.user.email,
-          firstName: result.user.firstName,
-          lastName: result.user.lastName,
-        };
+        return result.user;
       },
     }),
   ],
@@ -42,16 +45,24 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     maxAge: 30 * 24 * 60 * 60,
   },
   callbacks: {
-    async jwt({ token, user, trigger, session }) {
-      if (user) {
-        token.id = user.id;
-        token.email = user.email;
-        token.firstName = user.firstName;
-        token.lastName = user.lastName;
+    async signIn({ user, account }) {
+      if (account?.provider === 'google') {
+        return authService.upsertGoogleUser(user);
       }
+      return true;
+    },
+    async jwt({ token, user }) {
+      await connectDB();
+      if (user?.email) {
+        if (user?.email && !token.id) {
+          const dbUser = await User.findOne({ email: user.email });
+          if (!dbUser) return token;
 
-      if (trigger === 'update' && session?.user) {
-        token.businessName = session.user.businessName ?? token.businessName;
+          token.id = dbUser._id.toString();
+          token.email = dbUser.email;
+          token.firstName = dbUser.firstName ?? '';
+          token.lastName = dbUser.lastName ?? '';
+        }
       }
 
       return token;
