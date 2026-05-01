@@ -46,7 +46,7 @@ export default function useSignup() {
       );
 
       setTimeout(() => {
-        router.push('/signin');
+        router.push('/sign-in');
       }, 2000);
     } catch (error) {
       console.error('Signup error:', error);
