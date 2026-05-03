@@ -38,7 +38,7 @@ export function ForgotPasswordForm() {
               Reset Your Password
             </Heading>
             <Text color="fg.muted">
-              Enter your email and we'll send you reset instructions
+              Enter your email and we&apos;ll send you reset instructions
             </Text>
           </Stack>
 

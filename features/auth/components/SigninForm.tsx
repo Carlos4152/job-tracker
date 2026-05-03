@@ -106,7 +106,7 @@ export function SigninForm() {
 
             <Stack width="100%">
               <Box display="flex" fontSize="sm" gap={2} justifyContent="center">
-                <Text>Don't have an account? </Text>
+                <Text>Don&apos;t have an account? </Text>
                 <ChakraLink focusRing="none" asChild color="blue.500">
                   <NextLink href="/sign-up">Create an account</NextLink>
                 </ChakraLink>

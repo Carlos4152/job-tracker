@@ -149,7 +149,7 @@ export function ResetPasswordEmail({
                     lineHeight: '1.6',
                   }}
                 >
-                  Can't see the button? Use the link:{' '}
+                  Can&apos;t see the button? Use the link:{' '}
                   <Link
                     href={resetUrl}
                     style={{

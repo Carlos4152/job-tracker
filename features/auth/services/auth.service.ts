@@ -12,6 +12,13 @@ import { sendEmail } from '@/lib/email/send';
 import ResetPasswordEmail from '@/lib/email/templates/reset-password';
 import PasswordUpdatedEmail from '@/lib/email/templates/password-updated';
 
+type GoogleUserData = {
+  id?: string;
+  name?: string | null;
+  email?: string | null;
+  image?: string | null;
+};
+
 export const authService = {
   async signup(userData: SignupFormData) {
     await connectDB();
@@ -139,7 +146,7 @@ export const authService = {
     };
   },
 
-  async upsertGoogleUser(user: any) {
+  async upsertGoogleUser(user: GoogleUserData) {
     if (!user?.email) return false;
 
     await connectDB();
