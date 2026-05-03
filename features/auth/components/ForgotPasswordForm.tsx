@@ -14,7 +14,7 @@ import {
   Link as ChakraLink,
   HStack,
 } from '@chakra-ui/react';
-import { useForgotPassword } from '@/hooks/auth/useForgotPassword';
+import { useForgotPassword } from '@/features/auth/hooks/useForgotPassword';
 
 export function ForgotPasswordForm() {
   const { handleSubmit, register, errors, isSubmitting } = useForgotPassword();

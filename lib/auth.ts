@@ -1,10 +1,10 @@
-import { loginSchema } from '@/modules/auth/auth.schema';
-import { authService } from '@/modules/auth/auth.service';
+import { loginSchema } from '@/features/auth/schema/auth.schema';
 import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 import Google from 'next-auth/providers/google';
 import { connectDB } from './db';
-import { User } from '@/modules/auth/user.model';
+import { User } from '@/features/auth/models/user.model';
+import { authService } from '@/features/auth/services/auth.service';
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [

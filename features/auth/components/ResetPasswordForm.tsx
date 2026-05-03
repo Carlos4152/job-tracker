@@ -15,7 +15,7 @@ import {
   HStack,
 } from '@chakra-ui/react';
 import { PasswordInput } from '@/components/ui/password-input';
-import { useResetPassword } from '@/hooks/auth/useResetPassword';
+import { useResetPassword } from '@/features/auth/hooks/useResetPassword';
 
 interface ResetPasswordFormProps {
   token: string;

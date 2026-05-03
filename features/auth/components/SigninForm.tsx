@@ -16,8 +16,8 @@ import {
   Separator,
 } from '@chakra-ui/react';
 import { PasswordInput } from '@/components/ui/password-input';
-import useLogin from '@/hooks/auth/useSignin';
-import GoogleButton from '../shared/GoogleButton';
+import useLogin from '@/features/auth/hooks/useSignin';
+import GoogleButton from '../../../components/shared/GoogleButton';
 
 export function SigninForm() {
   const { handleSubmit, errors, isSubmitting, register } = useLogin();

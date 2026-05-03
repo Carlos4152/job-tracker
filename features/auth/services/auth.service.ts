@@ -3,8 +3,8 @@ import {
   LoginFormData,
   ResetPasswordFormData,
   SignupFormData,
-} from './auth.schema';
-import { User } from './user.model';
+} from '../schema/auth.schema';
+import { User } from '../models/user.model';
 import { ConflictError, UnauthorizedError } from '@/lib/errors';
 import { connectDB } from '@/lib/db';
 import { jwtService } from '@/lib/jwt';
