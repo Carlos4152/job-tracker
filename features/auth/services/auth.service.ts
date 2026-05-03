@@ -8,6 +8,9 @@ import { User } from '../models/user.model';
 import { ConflictError, UnauthorizedError } from '@/lib/errors';
 import { connectDB } from '@/lib/db';
 import { jwtService } from '@/lib/jwt';
+import { sendEmail } from '@/lib/email/send';
+import ResetPasswordEmail from '@/lib/email/templates/reset-password';
+import PasswordUpdatedEmail from '@/lib/email/templates/password-updated';
 
 export const authService = {
   async signup(userData: SignupFormData) {
@@ -71,6 +74,15 @@ export const authService = {
       passwordResetExpires: resetTokenExpiry,
     });
 
+    await sendEmail({
+      to: user.email,
+      subject: 'Reset your JobTrack password',
+      template: ResetPasswordEmail({
+        clientName: user.firstName,
+        resetUrl: `${process.env.NEXT_PUBLIC_APP_URL}/reset-password?token=${resetToken}`,
+      }),
+    });
+
     return { message: message };
   },
 
@@ -105,6 +117,22 @@ export const authService = {
     user.passwordResetExpires = undefined;
 
     await user.save();
+
+    await sendEmail({
+      to: user.email,
+      subject: 'Your password has been updated',
+      template: PasswordUpdatedEmail({
+        clientName: user.firstName,
+        loginUrl: `${process.env.NEXT_PUBLIC_APP_URL}/sign-in`,
+        updatedAt: new Date().toLocaleString('en-US', {
+          month: 'long',
+          day: 'numeric',
+          year: 'numeric',
+          hour: 'numeric',
+          minute: '2-digit',
+        }),
+      }),
+    });
 
     return {
       message: 'Password updated successfully',
