@@ -64,10 +64,38 @@ export const jobService = {
     return { message: 'Job deleted successfully' };
   },
 
-  async getJobs(userId: string) {
+  async getJobs(userId: string, searchQuery?: string, statusFilter?: string) {
     await connectDB();
 
-    const jobs = await Job.find({ userId }).sort({ createdAt: -1 }).lean();
+    let query = Job.find({ userId });
+
+    // Build filter conditions
+    const conditions = [];
+
+    // Search filter (text search across multiple fields)
+    if (searchQuery && searchQuery.trim()) {
+      const searchTerm = searchQuery.trim();
+      conditions.push({
+        $or: [
+          { title: { $regex: searchTerm, $options: 'i' } },
+          { company: { $regex: searchTerm, $options: 'i' } },
+          { location: { $regex: searchTerm, $options: 'i' } },
+          { platform: { $regex: searchTerm, $options: 'i' } },
+        ],
+      });
+    }
+
+    // Status filter
+    if (statusFilter && statusFilter.trim()) {
+      conditions.push({ status: statusFilter.toLowerCase() });
+    }
+
+    // Apply combined conditions
+    if (conditions.length > 0) {
+      query = query.find({ $and: conditions });
+    }
+
+    const jobs = await query.sort({ createdAt: -1 }).lean();
 
     return { jobs: JSON.parse(JSON.stringify(jobs)) };
   },

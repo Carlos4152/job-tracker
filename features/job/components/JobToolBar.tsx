@@ -1,33 +1,46 @@
 'use client';
-import {
-  Button,
-  Grid,
-  GridItem,
-  Input,
-  InputGroup,
-  Stack,
-  Tabs,
-} from '@chakra-ui/react';
-import { IoSearchOutline } from 'react-icons/io5';
-import SelectStatus from './SelectStatus';
+
+import { Grid, GridItem, Stack, Tabs, Button } from '@chakra-ui/react';
 import { LuTableOfContents } from 'react-icons/lu';
 import { BsFillGrid1X2Fill } from 'react-icons/bs';
-
 import { PiReadCvLogo } from 'react-icons/pi';
 import Link from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { SearchInput } from '@/components/shared/SearchInput';
+import SelectStatus from './SelectStatus';
 
 export default function JobToolBar() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const currentStatus = searchParams.get('status') || '';
+
+  const handleStatusChange = ({ value }: { value: string[] }) => {
+    const params = new URLSearchParams(searchParams);
+
+    if (value[0]) {
+      params.set('status', value[0]);
+    } else {
+      params.delete('status');
+    }
+
+    router.push(`/jobs?${params.toString()}`);
+  };
+
   return (
     <Grid templateColumns={{ lg: 'repeat(2, 1fr)' }} gap={{ lg: 8 }}>
       <GridItem>
         <Stack direction={{ base: 'column', md: 'row' }} gap={4}>
-          <InputGroup
-            startElement={<IoSearchOutline />}
-            width={{ lg: '300px' }}
-          >
-            <Input placeholder="Search jobs application.." />
-          </InputGroup>
-          <SelectStatus size="md" />
+          <SearchInput
+            route="/jobs"
+            queryKey="q"
+            placeholder="Search by title or company name..."
+          />
+          <SelectStatus
+            size="md"
+            value={currentStatus ? [currentStatus] : []}
+            onValueChange={handleStatusChange}
+          />
         </Stack>
       </GridItem>
 

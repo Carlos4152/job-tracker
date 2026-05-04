@@ -104,10 +104,13 @@ export async function deleteJobAction(jobId: string): Promise<ActionResult> {
 }
 
 // ─── Get all ───────────────────────────────────────────────────────────────
-export async function getJobsAction(): Promise<ActionResult<Job[]>> {
+export async function getJobsAction(
+  searchQuery?: string,
+  statusFilter?: string,
+): Promise<ActionResult<Job[]>> {
   try {
     const userId = await getCurrentUserId();
-    const result = await jobService.getJobs(userId);
+    const result = await jobService.getJobs(userId, searchQuery, statusFilter);
     return { success: true, data: result.jobs };
   } catch (error) {
     if (error instanceof UnauthorizedError) {

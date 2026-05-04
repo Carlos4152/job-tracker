@@ -18,8 +18,8 @@ const SelectValue = () => {
     color: string;
   }>;
 
-   if (!items.length || !items[0]) {
-    return <Select.ValueText placeholder="Select status" />
+  if (!items.length || !items[0] || items[0].value === '') {
+    return <Select.ValueText placeholder="All statuses" />;
   }
   const { label, color } = items[0];
   return (
@@ -50,7 +50,7 @@ const SelectStatus = ({
     <Select.Root
       collection={status}
       size={size ? size : 'xs'}
-      width={width ? width : '120px'}
+      width={width ? width : '125px'}
       value={value}
       positioning={{ sameWidth: true }}
       onValueChange={onValueChange}
@@ -71,7 +71,7 @@ const SelectStatus = ({
             {status.items.map((status) => (
               <Select.Item
                 item={status}
-                key={status.value}
+                key={status.value || 'all'}
                 justifyContent="flex-start"
               >
                 <Status.Root colorPalette={status.color}>

@@ -1,10 +1,19 @@
 import { getJobsAction } from '@/features/job/actions/job.actions';
-import JobCardList from '@/features/job/components/JobCardList';
-import JobToolBar from '@/features/job/components/JobToolBar';
+import JobClientWrapper from '@/features/job/components/JobClientWrapper';
 import { Box, Heading, Stack } from '@chakra-ui/react';
 
-export default async function page() {
-  const fetchJobs = await getJobsAction();
+interface PageProps {
+  searchParams: Promise<{
+    q?: string;
+    status?: string;
+  }>;
+}
+
+export default async function page({ searchParams }: PageProps) {
+  const { q, status } = await searchParams;
+  const query = q || '';
+  const statusFilter = status || '';
+  const fetchJobs = await getJobsAction(query, statusFilter);
 
   return (
     <Stack spaceY={5}>
@@ -12,9 +21,11 @@ export default async function page() {
         <Heading>Job Page</Heading>
       </Box>
 
-      <JobToolBar />
-
-      <JobCardList jobs={fetchJobs.data || []} />
+      <JobClientWrapper
+        jobs={fetchJobs.data || []}
+        searchQuery={query}
+        statusFilter={statusFilter}
+      />
     </Stack>
   );
 }
