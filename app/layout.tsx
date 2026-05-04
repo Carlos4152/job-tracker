@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { DM_Sans } from 'next/font/google';
 import { Toaster } from '@/components/ui/toaster';
 import { SessionProvider } from 'next-auth/react';
+import { ConfirmDeleteProvider } from '@/components/shared/DeleteModal';
 
 const dmSans = DM_Sans({
   variable: '--font-dm-sans',
@@ -24,7 +25,7 @@ export default function RootLayout({
       <body suppressHydrationWarning>
         <SessionProvider>
           <Provider>
-            {children}
+            <ConfirmDeleteProvider>{children}</ConfirmDeleteProvider>
 
             <Toaster />
           </Provider>

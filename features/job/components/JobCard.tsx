@@ -31,8 +31,13 @@ import { Job } from '../types/job.type';
 import { PLATFORMS } from '../constants/job-platform';
 import { JOB_STATUS } from '../constants/job-status';
 import { urlHelper } from '../helper/job.helper';
+import { useConfirmDelete } from '@/components/shared/DeleteModal';
+import { toast } from '@/components/shared/toast';
+import { deleteJobAction } from '../actions/job.actions';
 
 export default function JobCard({ job }: { job: Job }) {
+  const { confirmDelete } = useConfirmDelete();
+
   const {
     _id,
     company,
@@ -50,6 +55,26 @@ export default function JobCard({ job }: { job: Job }) {
   const companyLogoUrl = companyWebsite
     ? urlHelper.getCompanyLogoUrl(companyWebsite)
     : null;
+
+  const handleDelete = async () => {
+    await confirmDelete({
+      title: 'Delete Job',
+      description: (
+        <Text>
+          Are you sure you want to delete the job application{' '}
+          <strong>{job.title}</strong>? This action cannot be undone.
+        </Text>
+      ),
+      onConfirm: async () => {
+        const res = await deleteJobAction(job._id);
+        if (!res.success) {
+          toast.error('Error', res.message || 'Failed to delete client');
+          throw new Error(res.message);
+        }
+        toast.success('Success', 'Job deleted successfully', 3000);
+      },
+    });
+  };
 
   return (
     <Card.Root key={job._id}>
@@ -88,7 +113,7 @@ export default function JobCard({ job }: { job: Job }) {
                       Update info
                     </Link>
                   </Menu.Item>
-                  <Menu.Item value="delete_application">
+                  <Menu.Item value="delete_application" onClick={handleDelete}>
                     <GoTrash />
                     Delete Application
                   </Menu.Item>

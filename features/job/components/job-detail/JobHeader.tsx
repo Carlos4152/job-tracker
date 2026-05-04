@@ -22,8 +22,14 @@ import { BsThreeDotsVertical } from 'react-icons/bs';
 import Link from 'next/link';
 import { FiEdit } from 'react-icons/fi';
 import { GoTrash } from 'react-icons/go';
+import { useConfirmDelete } from '@/components/shared/DeleteModal';
+import { deleteJobAction } from '../../actions/job.actions';
+import { toast } from '@/components/shared/toast';
+import { useRouter } from 'next/navigation';
 
 export default function JobHeader({ job }: { job: Job }) {
+  const { confirmDelete } = useConfirmDelete();
+  const router = useRouter();
   const {
     _id,
     company,
@@ -41,6 +47,27 @@ export default function JobHeader({ job }: { job: Job }) {
 
   const selectedPlatform = PLATFORMS.find((item) => item.value === platform);
   const currentStatus = JOB_STATUS.find((item) => item.value === status);
+
+  const handleDelete = async () => {
+    await confirmDelete({
+      title: 'Delete Job',
+      description: (
+        <Text>
+          Are you sure you want to delete the job application{' '}
+          <strong>{job.title}</strong>? This action cannot be undone.
+        </Text>
+      ),
+      onConfirm: async () => {
+        const res = await deleteJobAction(job._id);
+        if (!res.success) {
+          toast.error('Error', res.message || 'Failed to delete client');
+          throw new Error(res.message);
+        }
+        toast.success('Success', 'Job deleted successfully', 3000);
+        router.push('/jobs');
+      },
+    });
+  };
 
   return (
     <Box position="relative">
@@ -107,7 +134,7 @@ export default function JobHeader({ job }: { job: Job }) {
                     Update info
                   </Link>
                 </Menu.Item>
-                <Menu.Item value="delete_application">
+                <Menu.Item value="delete_application" onClick={handleDelete}>
                   <GoTrash />
                   Delete Application
                 </Menu.Item>
