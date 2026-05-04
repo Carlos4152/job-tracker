@@ -1,15 +1,14 @@
-"use client"
+'use client';
 
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useRouter } from 'next/navigation'
-import { toast } from '@/components/shared/toast'
-import { loginSchema, LoginFormData } from '@/features/auth/schema/auth.schema'
-import { signinAction } from '../actions/auth.actions'
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { toast } from '@/components/shared/toast';
+import { loginSchema, LoginFormData } from '@/features/auth/schema/auth.schema';
+import { useRouter } from 'next/navigation';
+import { signIn } from 'next-auth/react';
 
 export default function useLogin() {
-  const router = useRouter()
-
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -20,24 +19,28 @@ export default function useLogin() {
       email: '',
       password: '',
     },
-  })
+  });
 
   const onSubmit = async (data: LoginFormData) => {
-    const result = await signinAction(data)
+    const result = await signIn('credentials', {
+      email: data.email,
+      password: data.password,
+      redirect: false,
+    });
 
-    if (!result.success) {
-      toast.error('Login Failed', result.message || 'Invalid email or password.')
-      return
+    if (!result.ok) {
+      toast.error('Login Failed', result.error || 'Invalid email or password.');
+      return;
     }
 
-    toast.success('Success!', 'Redirecting to dashboard...', 3000)
-    router.push('/dashboard')
-  }
+    toast.success('Success!', 'Redirecting to dashboard...', 3000);
+    router.push('/jobs');
+  };
 
   return {
     register,
     handleSubmit: handleSubmit(onSubmit),
     errors,
     isSubmitting,
-  }
+  };
 }

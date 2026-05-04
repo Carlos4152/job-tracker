@@ -11,7 +11,7 @@ export default function GoogleButton() {
       width="full"
       spinnerPlacement="start"
       variant="subtle"
-      onClick={() => signIn('google', { callbackUrl: '/dashboard' })}
+      onClick={() => signIn('google', { callbackUrl: '/jobs' })}
     >
       <Image src={GoogleSvg} alt="Google Icon" width={18} height={18} />
       Google

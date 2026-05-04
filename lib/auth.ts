@@ -19,22 +19,21 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
 
       authorize: async ({ email, password }) => {
-        if (!email || !password) {
-          return null;
-        }
+        if (!email || !password) return null;
 
         const parsed = loginSchema.safeParse({ email, password });
 
-        if (!parsed.success) {
-          return null;
-        }
+        if (!parsed.success) return null;
 
         const result = await authService.signin(parsed.data);
-        if (!result?.user) {
-          return null;
-        }
+        if (!result?.user) return null;
 
-        return result.user;
+        return {
+          id: result.user.id,
+          email: result.user.email,
+          firstName: result.user.firstName,
+          lastName: result.user.lastName,
+        };
       },
     }),
   ],
@@ -52,17 +51,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return true;
     },
     async jwt({ token, user }) {
-      await connectDB();
-      if (user?.email) {
-        if (user?.email && !token.id) {
-          const dbUser = await User.findOne({ email: user.email });
-          if (!dbUser) return token;
+      // user is only available on first sign in
+      if (user) {
+        await connectDB();
+        const dbUser = await User.findOne({ email: user.email });
+        if (!dbUser) return token;
 
-          token.id = dbUser._id.toString();
-          token.email = dbUser.email;
-          token.firstName = dbUser.firstName ?? '';
-          token.lastName = dbUser.lastName ?? '';
-        }
+        token.id = dbUser._id.toString();
+        token.email = dbUser.email;
+        token.firstName = dbUser.firstName ?? '';
+        token.lastName = dbUser.lastName ?? '';
       }
 
       return token;

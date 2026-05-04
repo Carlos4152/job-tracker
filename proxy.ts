@@ -9,7 +9,7 @@ const publicRoutes = [
   '/forgot-password',
   '/reset-password',
 ];
-const privateRoutes = ['/dashboard'];
+const privateRoutes = ['/jobs', '/jobs/new'];
 
 export async function proxy(request: NextRequest) {
   try {
@@ -38,7 +38,7 @@ export async function proxy(request: NextRequest) {
 
     // Redirect to dashboard if accessing auth routes while authenticated
     if (isPublicRoute && token) {
-      return NextResponse.redirect(new URL('/dashboard', request.url));
+      return NextResponse.redirect(new URL('/jobs', request.url));
     }
 
     return NextResponse.next();
