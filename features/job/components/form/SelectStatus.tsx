@@ -8,7 +8,7 @@ import {
   Text,
   useSelectContext,
 } from '@chakra-ui/react';
-import { status } from '../constants/job-status';
+import { status } from '../../constants/job-status';
 
 const SelectValue = () => {
   const select = useSelectContext();

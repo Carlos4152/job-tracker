@@ -1,5 +1,5 @@
 import { getJobByIdAction } from '@/features/job/actions/job.actions';
-import JobForm from '@/features/job/components/JobForm';
+import JobForm from '@/features/job/components/form/JobForm';
 import {
   Stack,
   Link as ChakraLink,

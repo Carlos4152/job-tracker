@@ -7,9 +7,14 @@ import { PiReadCvLogo } from 'react-icons/pi';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { SearchInput } from '@/components/shared/SearchInput';
-import SelectStatus from './SelectStatus';
+import SelectStatus from './form/SelectStatus';
 
-export default function JobToolBar() {
+interface JobToolBarProps {
+  view: 'list' | 'grid';
+  setView: (value: 'list' | 'grid') => void;
+}
+
+export default function JobToolBar({ view, setView }: JobToolBarProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -25,6 +30,12 @@ export default function JobToolBar() {
     }
 
     router.push(`/jobs?${params.toString()}`);
+  };
+
+  const handleViewChange = (value: 'list' | 'grid') => {
+    setView(value);
+
+    localStorage.setItem('jobViewPreference', value);
   };
 
   return (
@@ -51,12 +62,19 @@ export default function JobToolBar() {
           justifyContent={{ lg: 'end' }}
           alignItems={{ lg: 'center' }}
         >
-          <Tabs.Root defaultValue="members" variant="enclosed" size="sm">
+          <Tabs.Root
+            variant="enclosed"
+            size="sm"
+            value={view}
+            onValueChange={(details) =>
+              handleViewChange(details.value as 'list' | 'grid')
+            }
+          >
             <Tabs.List>
-              <Tabs.Trigger value="members">
+              <Tabs.Trigger value="list">
                 <LuTableOfContents />
               </Tabs.Trigger>
-              <Tabs.Trigger value="projects">
+              <Tabs.Trigger value="grid">
                 <BsFillGrid1X2Fill />
               </Tabs.Trigger>
             </Tabs.List>

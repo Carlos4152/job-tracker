@@ -16,15 +16,15 @@ import { TbWorld } from 'react-icons/tb';
 import { AiFillLinkedin } from 'react-icons/ai';
 import { IoIosLink } from 'react-icons/io';
 import { RiMoneyDollarCircleLine } from 'react-icons/ri';
-import JobPlatformInput from './JobPlatformInput';
-import SelectStatus from './SelectStatus';
 import DescriptionInput from './DescriptionInput';
-import useJobForm from '../hooks/useJobForm';
-import { Job } from '../types/job.type';
+import useJobForm from '../../hooks/useJobForm';
+import { Job } from '../../types/job.type';
+import SelectStatus from './SelectStatus';
+import JobPlatformInput from './JobPlatformInput';
 
 interface JobFormProps {
   initialData?: Job;
-  isEdit?: boolean
+  isEdit?: boolean;
 }
 
 export default function JobForm({ initialData, isEdit }: JobFormProps) {
