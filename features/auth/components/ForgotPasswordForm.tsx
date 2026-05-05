@@ -15,6 +15,7 @@ import {
   HStack,
 } from '@chakra-ui/react';
 import { useForgotPassword } from '@/features/auth/hooks/useForgotPassword';
+import Logo from '@/components/shared/Logo';
 
 export function ForgotPasswordForm() {
   const { handleSubmit, register, errors, isSubmitting } = useForgotPassword();
@@ -31,7 +32,9 @@ export function ForgotPasswordForm() {
         justifyContent="center"
       >
         <VStack as="form" onSubmit={handleSubmit} gap={8} width="full">
-          <Box p={4}>Logo Here</Box>
+          <Box p={4}>
+            <Logo />
+          </Box>
 
           <Stack textAlign="center" gap={1.5}>
             <Heading as="h3" size="2xl">

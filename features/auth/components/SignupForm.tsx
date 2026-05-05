@@ -19,6 +19,7 @@ import {
 import useSignup from '@/features/auth/hooks/useSignup';
 import { PasswordInput } from '../../../components/ui/password-input';
 import GoogleButton from '../../../components/shared/GoogleButton';
+import Logo from '@/components/shared/Logo';
 
 export function SignupForm() {
   const { handleSubmit, errors, register, isSubmitting } = useSignup();
@@ -35,7 +36,9 @@ export function SignupForm() {
         justifyContent="center"
       >
         <VStack as="form" onSubmit={handleSubmit} gap={8} width="full">
-          <Box p={4}>Logo here</Box>
+          <Box p={4}>
+            <Logo />
+          </Box>
 
           {/* Header */}
           <Stack textAlign="center" gap={1.5}>

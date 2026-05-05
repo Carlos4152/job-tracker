@@ -1,5 +1,5 @@
-import WebAppNavbar from '@/components/layout/WebAppNavbar';
-import { Box, Container, Stack } from '@chakra-ui/react';
+import AppSidebar from '@/components/layout/AppSidebar';
+import { Box, Container, Flex } from '@chakra-ui/react';
 
 export default function WebApplayout({
   children,
@@ -7,12 +7,11 @@ export default function WebApplayout({
   children: React.ReactNode;
 }) {
   return (
-    <Box>
-      <Stack spaceY={5}>
-        <WebAppNavbar />
-
-        <Container maxW="6xl">{children}</Container>
-      </Stack>
-    </Box>
+    <Container maxW="8xl">
+      <Flex gap={{ base: 5, lg: 10 }} direction={{ base: 'column', lg: 'row' }} py={{ base: 3, lg: 0}}>
+        <AppSidebar />
+        <Box flex={1} py={{lg: 8}}>{children}</Box>
+      </Flex>
+    </Container>
   );
 }

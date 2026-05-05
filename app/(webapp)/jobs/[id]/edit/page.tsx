@@ -27,10 +27,10 @@ export default async function page({ params }: JobPageParams) {
         </ChakraLink>
       </Box>
 
-      <Box spaceY={3}>
-        <Heading>Update Application</Heading>
+      <Box>
+        <Heading>Edit Application</Heading>
         <Text color="fg.subtle">
-          Add a new job application to track your progress.
+          Make changes to your application.
         </Text>
       </Box>
       <Box width={{ lg: '80%' }}>

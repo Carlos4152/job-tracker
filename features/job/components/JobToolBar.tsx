@@ -40,7 +40,7 @@ export default function JobToolBar({ view, setView }: JobToolBarProps) {
   };
 
   return (
-    <Grid templateColumns={{ lg: 'repeat(2, 1fr)' }} gap={{ lg: 8 }}>
+    <Grid templateColumns={{ md: 'repeat(2, 1fr)' }} gap={{ base: 3, lg: 8 }}>
       <GridItem>
         <Stack direction={{ base: 'column', md: 'row' }} gap={4}>
           <SearchInput
@@ -50,6 +50,7 @@ export default function JobToolBar({ view, setView }: JobToolBarProps) {
           />
           <SelectStatus
             size="md"
+            width=""
             value={currentStatus ? [currentStatus] : []}
             onValueChange={handleStatusChange}
           />
@@ -60,7 +61,7 @@ export default function JobToolBar({ view, setView }: JobToolBarProps) {
         <Stack
           direction={{ lg: 'row' }}
           gap={3}
-          justifyContent={{ lg: 'end' }}
+          justifyContent={{ md: 'end' }}
           alignItems={{ lg: 'center' }}
         >
           <Tabs.Root
@@ -70,6 +71,7 @@ export default function JobToolBar({ view, setView }: JobToolBarProps) {
             onValueChange={(details) =>
               handleViewChange(details.value as 'list' | 'grid')
             }
+            display={{ base: 'none', md: 'block' }}
           >
             <Tabs.List>
               <Tabs.Trigger value="list">
@@ -80,7 +82,7 @@ export default function JobToolBar({ view, setView }: JobToolBarProps) {
               </Tabs.Trigger>
             </Tabs.List>
           </Tabs.Root>
-          <Button asChild>
+          <Button asChild width={{ base: '100%', md: 'auto' }}>
             <Link href="/jobs/new">
               <PiReadCvLogo />
               Register application

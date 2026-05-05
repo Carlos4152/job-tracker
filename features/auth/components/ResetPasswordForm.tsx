@@ -15,6 +15,7 @@ import {
 } from '@chakra-ui/react';
 import { PasswordInput } from '@/components/ui/password-input';
 import { useResetPassword } from '@/features/auth/hooks/useResetPassword';
+import Logo from '@/components/shared/Logo';
 
 interface ResetPasswordFormProps {
   token: string;
@@ -36,7 +37,9 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
         justifyContent="center"
       >
         <VStack as="form" onSubmit={handleSubmit} gap={8} width="full">
-          <Box p={4}>Logo Here</Box>
+          <Box p={4}>
+            <Logo />
+          </Box>
 
           <Stack textAlign="center" gap={1.5}>
             <Heading as="h3" size="2xl">

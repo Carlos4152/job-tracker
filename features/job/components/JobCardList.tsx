@@ -21,7 +21,7 @@ export default function JobCardList({ jobs, view }: JobCardListProps) {
   }
 
   return (
-    <Grid templateColumns={{ lg: 'repeat(3, 1fr)' }} gap={3}>
+    <Grid templateColumns={{ md: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)' }} gap={3}>
       {jobs.map((job) => (
         <JobCard key={job._id} job={job} />
       ))}

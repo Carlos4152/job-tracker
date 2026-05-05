@@ -17,11 +17,9 @@ export default function page() {
         </ChakraLink>
       </Box>
 
-      <Box spaceY={3}>
-        <Heading>Register Application</Heading>
-        <Text color="fg.subtle">
-          Add a new job application to track your progress.
-        </Text>
+      <Box>
+        <Heading>Add Application</Heading>
+        <Text color="fg.subtle">Create a new application.</Text>
       </Box>
       <Box width={{ lg: '80%' }}>
         <JobForm />

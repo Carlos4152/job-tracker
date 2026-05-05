@@ -1,6 +1,6 @@
 import { getJobsAction } from '@/features/job/actions/job.actions';
 import JobClientWrapper from '@/features/job/components/JobClientWrapper';
-import { Box, Heading, Stack } from '@chakra-ui/react';
+import { Box, Heading, Stack, Text } from '@chakra-ui/react';
 
 interface PageProps {
   searchParams: Promise<{
@@ -18,7 +18,8 @@ export default async function page({ searchParams }: PageProps) {
   return (
     <Stack spaceY={5}>
       <Box>
-        <Heading>Job Page</Heading>
+        <Heading>My Job Applications</Heading>
+        <Text color='fg.subtle'>Track and manage your applications in one place.</Text>
       </Box>
 
       <JobClientWrapper
