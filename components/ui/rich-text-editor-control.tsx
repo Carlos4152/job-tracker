@@ -1,8 +1,9 @@
-// src/components/ui/rich-text-editor-control.tsx
 'use client';
 
 import { IconButton, Select } from '@chakra-ui/react';
 import { useRichTextEditorContext } from './rich-text-editor-context';
+import type { Editor } from '@tiptap/react';
+
 import {
   LuBold,
   LuItalic,
@@ -20,8 +21,20 @@ import {
   LuQuote,
 } from 'react-icons/lu';
 
+type ToolbarButtonProps = {
+  onClick?: () => void;
+  isActive?: boolean;
+  children: React.ReactNode;
+  label: string;
+};
+
 // Helper component for toolbar buttons
-const ToolbarButton = ({ onClick, isActive, children, label }: any) => (
+const ToolbarButton = ({
+  onClick,
+  isActive,
+  children,
+  label,
+}: ToolbarButtonProps) => (
   <IconButton
     size="sm"
     variant={isActive ? 'subtle' : 'ghost'}
@@ -227,8 +240,15 @@ export const Redo = () => {
   );
 };
 
+type BooleanControlConfig = {
+  label: string;
+  icon: React.ElementType;
+  command: (editor: Editor) => void;
+  getVariant?: (editor: Editor) => 'subtle' | 'ghost';
+};
+
 // Placeholder factory functions (simplified versions)
-export const createBooleanControl = (config: any) => {
+export const createBooleanControl = (config: BooleanControlConfig) => {
   return () => {
     const { editor } = useRichTextEditorContext();
     if (!editor) return null;
@@ -244,7 +264,21 @@ export const createBooleanControl = (config: any) => {
   };
 };
 
-export const createSelectControl = (config: any) => {
+type SelectOption = {
+  label: string;
+  value: string;
+};
+
+type SelectControlConfig = {
+  label: string;
+  placeholder?: string;
+  width?: string;
+  options: SelectOption[];
+  getValue: (editor: Editor) => string;
+  command: (editor: Editor, value: string) => void;
+};
+
+export const createSelectControl = (config: SelectControlConfig) => {
   return (props: any) => {
     const { editor } = useRichTextEditorContext();
     if (!editor) return null;
@@ -272,7 +306,15 @@ export const createSelectControl = (config: any) => {
   };
 };
 
-export const createSwatchControl = (config: any) => {
+type SwatchControlConfig = {
+  label: string;
+  icon: React.ElementType;
+  getValue: (editor: Editor) => string | null;
+  onRemove: (editor: Editor) => void;
+  showRemove?: boolean;
+};
+
+export const createSwatchControl = (config: SwatchControlConfig) => {
   return (props: any) => {
     const { editor } = useRichTextEditorContext();
     if (!editor) return null;
