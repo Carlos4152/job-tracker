@@ -27,7 +27,7 @@ interface JobFormProps {
   isEdit?: boolean;
 }
 
-export default function JobForm({ initialData, isEdit }: JobFormProps) {
+export default function JobForm({ initialData }: JobFormProps) {
   const { form, editor, onSubmit } = useJobForm(initialData);
 
   const {

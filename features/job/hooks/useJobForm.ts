@@ -84,25 +84,21 @@ export default function useJobForm(initialData?: Job) {
   }, [initialData, form, editor]);
 
   const onSubmit = async (data: JobFormData) => {
-    try {
-      let result;
+    let result;
 
-      if (isEdit && initialData?._id) {
-        result = await updateJobAction(initialData._id, data);
-      } else {
-        result = await createJobAction(data);
-      }
-
-      if (!result.success) {
-        toast.error('Failed to save job', result.message);
-        return;
-      }
-
-      toast.success('Job saved', result.message);
-      router.push('/jobs');
-    } catch (error) {
-      toast.error('Error', 'Something went wrong. Please try again.');
+    if (isEdit && initialData?._id) {
+      result = await updateJobAction(initialData._id, data);
+    } else {
+      result = await createJobAction(data);
     }
+
+    if (!result.success) {
+      toast.error('Failed to save job', result.message);
+      return;
+    }
+
+    toast.success('Job saved', result.message);
+    router.push('/jobs');
   };
 
   return {

@@ -1,18 +1,6 @@
 'use client';
 import { Box, Text, Timeline, Icon } from '@chakra-ui/react';
-import {
-  LuCheck,
-  LuSend,
-  LuCalendar,
-  LuFileText,
-  LuBriefcase,
-  LuUserCheck,
-  LuPhone,
-  LuMail,
-  LuAward,
-  LuBadgeX,
-  LuClock,
-} from 'react-icons/lu';
+import { LuClock } from 'react-icons/lu';
 import { timelineHelper } from '../../helper/job.helper';
 import { date_format } from '@/helper/date_format';
 

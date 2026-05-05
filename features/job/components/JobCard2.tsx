@@ -20,7 +20,6 @@ import {
 import {
   IoCashOutline,
   IoEyeOutline,
-  IoLocationOutline,
 } from 'react-icons/io5';
 import { FaLink } from 'react-icons/fa6';
 import Link from 'next/link';

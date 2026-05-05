@@ -1,18 +1,15 @@
 'use server';
 
-import { ConflictError, UnauthorizedError } from '@/lib/errors';
+import { ConflictError } from '@/lib/errors';
 import {
   ForgotPasswordFormData,
   forgotPasswordSchema,
-  LoginFormData,
-  loginSchema,
   ResetPasswordFormData,
   resetPasswordSchema,
   SignupFormData,
   signupSchema,
 } from '../schema/auth.schema';
 import { authService } from '../services/auth.service';
-import { signIn } from '@/lib/auth';
 
 export async function signupAction(formData: SignupFormData) {
   const parsed = signupSchema.safeParse(formData);
@@ -49,6 +46,7 @@ export async function forgotPasswordAction(formData: ForgotPasswordFormData) {
     const result = await authService.forgotPassword(parsed.data.email);
     return { success: true, message: result.message };
   } catch (error) {
+    console.log(error);
     return { success: false, message: 'Something went wrong' };
   }
 }

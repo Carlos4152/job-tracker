@@ -1,11 +1,6 @@
 'use client';
 
 import { Control, RichTextEditor } from '@/components/ui/rich-text-editor';
-import StarterKit from '@tiptap/starter-kit';
-import TextAlign from '@tiptap/extension-text-align';
-import { TextStyleKit } from '@tiptap/extension-text-style';
-import Subscript from '@tiptap/extension-subscript';
-import Superscript from '@tiptap/extension-superscript';
 import { Editor } from '@tiptap/react';
 
 interface DescriptionInputProps {

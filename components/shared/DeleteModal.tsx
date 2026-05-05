@@ -1,13 +1,6 @@
 'use client';
 
-import {
-  Button,
-  CloseButton,
-  Dialog,
-  Portal,
-  Stack,
-  Text,
-} from '@chakra-ui/react';
+import { Button, CloseButton, Dialog, Portal, Stack } from '@chakra-ui/react';
 import {
   createContext,
   useContext,
@@ -98,7 +91,7 @@ export function ConfirmDeleteProvider({
           <Dialog.Positioner>
             <Dialog.Content>
               <Dialog.Header>
-                <Stack gap={3} >
+                <Stack gap={3}>
                   <Stack
                     w={10}
                     h={10}

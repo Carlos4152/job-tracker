@@ -12,7 +12,6 @@ import {
   Grid,
   GridItem,
   Separator,
-  Link as ChakraLink,
   Skeleton,
 } from '@chakra-ui/react';
 

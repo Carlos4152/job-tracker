@@ -6,7 +6,6 @@ import {
   Portal,
   Avatar,
   Text,
-  Button,
   Icon,
   Separator,
 } from '@chakra-ui/react';

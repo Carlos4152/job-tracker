@@ -5,7 +5,6 @@ import {
   HStack,
   Stack,
   Separator,
-  Grid,
 } from '@chakra-ui/react';
 
 export function JobHeaderSkeleton() {

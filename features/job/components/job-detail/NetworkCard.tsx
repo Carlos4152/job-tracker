@@ -1,7 +1,6 @@
 import {
   Avatar,
   Box,
-  Card,
   HStack,
   Icon,
   Stack,

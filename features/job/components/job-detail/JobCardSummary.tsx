@@ -1,7 +1,6 @@
 'use client';
 import Image from 'next/image';
 import { PLATFORMS } from '../../constants/job-platform';
-import { JOB_STATUS } from '../../constants/job-status';
 import { urlHelper } from '../../helper/job.helper';
 import { Job } from '../../types/job.type';
 import {
@@ -26,9 +25,6 @@ export default function JobCardSummary({ jobs }: { jobs: Job[] }) {
       {jobs.map((job) => {
         const selectedPlatform = PLATFORMS.find(
           (item) => item.value === job.platform,
-        );
-        const currentStatus = JOB_STATUS.find(
-          (item) => item.value === job.status,
         );
 
         const companyLogoUrl = job.companyWebsite
@@ -75,7 +71,12 @@ export default function JobCardSummary({ jobs }: { jobs: Job[] }) {
                 <Separator orientation="vertical" height="4" />
                 <Text textStyle="sm">${job.salary}</Text>
                 <Separator orientation="vertical" height="4" />
-                <ChakraLink asChild fontSize="sm" color='blue.500' focusRing='none'>
+                <ChakraLink
+                  asChild
+                  fontSize="sm"
+                  color="blue.500"
+                  focusRing="none"
+                >
                   <Link href={`/jobs/${job._id}`}>
                     View details
                     <TbExternalLink />

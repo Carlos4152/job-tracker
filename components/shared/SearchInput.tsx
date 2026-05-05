@@ -21,7 +21,6 @@ export function SearchInput({
   placeholder = 'Search...',
   debounceMs = 300,
   showIcon = true,
-  size = 'sm',
 }: SearchInputProps) {
   const router = useRouter();
   const searchParams = useSearchParams();

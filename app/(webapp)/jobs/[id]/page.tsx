@@ -2,15 +2,7 @@ import {
   getJobByIdAction,
   getJobsAction,
 } from '@/features/job/actions/job.actions';
-import {
-  Stack,
-  Link as ChakraLink,
-  Box,
-  Grid,
-  GridItem,
-  Separator,
-} from '@chakra-ui/react';
-import Link from 'next/link';
+import { Stack, Grid, GridItem, Separator } from '@chakra-ui/react';
 import JobHeader from '@/features/job/components/job-detail/JobHeader';
 import { notFound } from 'next/navigation';
 import JobDescription from '@/features/job/components/job-detail/JobDescription';
