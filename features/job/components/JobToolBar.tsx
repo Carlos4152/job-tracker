@@ -2,7 +2,6 @@
 
 import { Grid, GridItem, Stack, Tabs, Button } from '@chakra-ui/react';
 import { LuTableOfContents } from 'react-icons/lu';
-import { BsFillGrid1X2Fill } from 'react-icons/bs';
 import { PiReadCvLogo } from 'react-icons/pi';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';

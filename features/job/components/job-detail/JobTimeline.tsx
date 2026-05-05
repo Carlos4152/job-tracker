@@ -14,20 +14,6 @@ interface JobTimelineProps {
   timeline: TimelineEvent[];
 }
 
-function formatDate(dateString: string): string {
-  try {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    });
-  } catch {
-    return dateString;
-  }
-}
 
 export default function JobTimeline({ timeline }: JobTimelineProps) {
   if (!timeline || timeline.length === 0) {

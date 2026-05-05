@@ -31,7 +31,7 @@ export function useResetPassword(token: string) {
       toast.error('Invalid Link', 'Please request a new reset link.');
       router.push('/forgot-password');
     }
-  }, [token]);
+  }, [token, router]);
 
   const onSubmit = async (data: ResetPasswordFormData) => {
     const result = await resetPasswordAction(data, token);
