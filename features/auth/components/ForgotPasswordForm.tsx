@@ -64,7 +64,13 @@ export function ForgotPasswordForm() {
             </Button>
 
             {/* Back to Sign In Link */}
-            <ChakraLink textAlign="start" width="full" focusRing="none" asChild>
+            <ChakraLink
+              textAlign="start"
+              width="full"
+              focusRing="none"
+              asChild
+              color="link"
+            >
               <NextLink href="/sign-in">
                 <HStack as="span" fontSize="sm">
                   Back to sign in

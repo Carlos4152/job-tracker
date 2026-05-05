@@ -7,8 +7,8 @@ import {
   Text,
   useSelectContext,
 } from '@chakra-ui/react';
-import { JOB_PLATFORM } from '../constants/job-platform';
 import Image from 'next/image';
+import { JOB_PLATFORM } from '../../constants/job-platform';
 
 interface SelectStatusInput {
   size?: 'xs' | 'sm' | 'lg' | 'md';
@@ -39,12 +39,7 @@ const SelectValue = () => {
   );
 };
 
-const JobPlatformInput = ({
-  onValueChange,
-  size,
-  value,
-  width,
-}: SelectStatusInput) => {
+const JobPlatformInput = ({ onValueChange, value }: SelectStatusInput) => {
   return (
     <Select.Root
       collection={JOB_PLATFORM}

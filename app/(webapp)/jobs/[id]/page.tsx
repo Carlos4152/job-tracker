@@ -18,6 +18,7 @@ import JobSourceCard from '@/features/job/components/job-detail/JobSourceCard';
 import JobTimeline from '@/features/job/components/job-detail/JobTimeline';
 import JobCardSummary from '@/features/job/components/job-detail/JobCardSummary';
 import NetworkCard from '@/features/job/components/job-detail/NetworkCard';
+import BackLink from '@/components/shared/BackLink';
 
 interface JobPageParams {
   params: {
@@ -43,11 +44,7 @@ export default async function page({ params }: JobPageParams) {
 
   return (
     <Stack py={3} spaceY={4}>
-      <Box>
-        <ChakraLink asChild variant="underline" focusRing="none">
-          <Link href="/jobs">Back to jobs</Link>
-        </ChakraLink>
-      </Box>
+      <BackLink path="/jobs" label="Back to jobs" />
 
       <Grid templateColumns={{ lg: 'repeat(12, 1fr)' }} gap={5}>
         <GridItem colSpan={{ lg: 8 }}>

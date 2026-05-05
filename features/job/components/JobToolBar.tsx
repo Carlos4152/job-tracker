@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { SearchInput } from '@/components/shared/SearchInput';
 import SelectStatus from './form/SelectStatus';
+import { IoGridOutline } from 'react-icons/io5';
 
 interface JobToolBarProps {
   view: 'list' | 'grid';
@@ -75,7 +76,7 @@ export default function JobToolBar({ view, setView }: JobToolBarProps) {
                 <LuTableOfContents />
               </Tabs.Trigger>
               <Tabs.Trigger value="grid">
-                <BsFillGrid1X2Fill />
+                <IoGridOutline />
               </Tabs.Trigger>
             </Tabs.List>
           </Tabs.Root>

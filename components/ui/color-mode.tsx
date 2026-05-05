@@ -21,14 +21,29 @@ export interface UseColorModeReturn {
   toggleColorMode: () => void;
 }
 
+// export function useColorMode(): UseColorModeReturn {
+//   const { resolvedTheme, setTheme, forcedTheme } = useTheme();
+//   const colorMode = forcedTheme || resolvedTheme;
+//   const toggleColorMode = () => {
+//     setTheme(resolvedTheme === 'dark' ? 'light' : 'dark');
+//   };
+//   return {
+//     colorMode: colorMode as ColorMode,
+//     setColorMode: setTheme,
+//     toggleColorMode,
+//   };
+// }
+
 export function useColorMode(): UseColorModeReturn {
   const { resolvedTheme, setTheme, forcedTheme } = useTheme();
-  const colorMode = forcedTheme || resolvedTheme;
+  const colorMode = (forcedTheme ?? resolvedTheme ?? 'dark') as ColorMode; // ← add fallback
+
   const toggleColorMode = () => {
     setTheme(resolvedTheme === 'dark' ? 'light' : 'dark');
   };
+
   return {
-    colorMode: colorMode as ColorMode,
+    colorMode,
     setColorMode: setTheme,
     toggleColorMode,
   };

@@ -2,6 +2,13 @@ import { createSystem, defaultConfig, defineConfig } from '@chakra-ui/react';
 
 const config = defineConfig({
   theme: {
+    semanticTokens: {
+      colors: {
+        link: {
+          value: { base: '{colors.blue.600}', _dark: '{colors.blue.500}' },
+        },
+      },
+    },
     tokens: {
       fonts: {
         heading: { value: 'var(--font-dm-sans), sans-serif' },
