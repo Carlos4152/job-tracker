@@ -251,7 +251,7 @@ export const RichTextEditorContent = React.forwardRef<
   return <EditorContent editor={editor} {...props} innerRef={ref} />;
 });
 
-export interface RichTextEditorControlGroupProps extends StackProps {}
+type RichTextEditorControlGroupProps = StackProps;
 
 export const RichTextEditorControlGroup = React.forwardRef<
   HTMLDivElement,
