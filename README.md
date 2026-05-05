@@ -54,12 +54,8 @@ access layer.
 **Request flow**
 
 - Server Actions handle user interactions directly from components
-- Services contain business logic with no framework dependencies
-- Repositories handle all database queries in isolation
+- Services contain business logic and database queries
 - Components stay focused on UI — no fetch logic, no business rules
-
-This separation means business logic is fully testable in isolation
-and the database layer can be swapped without touching services.
 
 ## Local Development
 
