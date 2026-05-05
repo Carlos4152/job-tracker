@@ -1,6 +1,6 @@
 'use client';
 
-import { IconButton, Select } from '@chakra-ui/react';
+import { createListCollection, IconButton, Select } from '@chakra-ui/react';
 import { useRichTextEditorContext } from './rich-text-editor-context';
 import type { Editor } from '@tiptap/react';
 
@@ -249,9 +249,10 @@ type BooleanControlConfig = {
 
 // Placeholder factory functions (simplified versions)
 export const createBooleanControl = (config: BooleanControlConfig) => {
-  return () => {
+  const Component = () => {
     const { editor } = useRichTextEditorContext();
     if (!editor) return null;
+
     return (
       <ToolbarButton
         onClick={() => config.command(editor)}
@@ -262,6 +263,10 @@ export const createBooleanControl = (config: BooleanControlConfig) => {
       </ToolbarButton>
     );
   };
+
+  Component.displayName = `BooleanControl(${config.label})`;
+
+  return Component;
 };
 
 type SelectOption = {
@@ -279,23 +284,31 @@ type SelectControlConfig = {
 };
 
 export const createSelectControl = (config: SelectControlConfig) => {
-  return (props: any) => {
+  const Component = (props: Record<string, unknown>) => {
     const { editor } = useRichTextEditorContext();
     if (!editor) return null;
+
+    const collection = createListCollection({
+      items: config.options,
+    });
+
     return (
       <Select.Root
+        collection={collection}
         size="sm"
         width={config.width || '100px'}
         value={[config.getValue(editor)]}
-        onValueChange={(e) => config.command(editor, e.value[0])}
+        onValueChange={(e) => config.command(editor, e.value[0] as string)}
         {...props}
       >
         <Select.HiddenSelect />
+
         <Select.Trigger>
           <Select.ValueText placeholder={config.placeholder} />
         </Select.Trigger>
+
         <Select.Content>
-          {config.options.map((option: any) => (
+          {collection.items.map((option) => (
             <Select.Item key={option.value} item={option}>
               {option.label}
             </Select.Item>
@@ -304,6 +317,10 @@ export const createSelectControl = (config: SelectControlConfig) => {
       </Select.Root>
     );
   };
+
+  Component.displayName = `SelectControl(${config.label})`;
+
+  return Component;
 };
 
 type SwatchControlConfig = {
@@ -315,23 +332,30 @@ type SwatchControlConfig = {
 };
 
 export const createSwatchControl = (config: SwatchControlConfig) => {
-  return (props: any) => {
+  const Component = (props: Record<string, unknown>) => {
     const { editor } = useRichTextEditorContext();
     if (!editor) return null;
+
     const currentValue = config.getValue(editor);
+
     return (
       <IconButton
         size="sm"
         variant={currentValue ? 'subtle' : 'ghost'}
         aria-label={config.label}
-        icon={<config.icon />}
         {...props}
         onClick={() => {
           if (currentValue && config.showRemove) {
             config.onRemove(editor);
           }
         }}
-      />
+      >
+        <config.icon />
+      </IconButton>
     );
   };
+
+  Component.displayName = `SwatchControl(${config.label})`;
+
+  return Component;
 };
