@@ -26,7 +26,7 @@ export default function JobClientWrapper({
       | null;
 
     if (savedView === 'list' || savedView === 'grid') {
-      setView((prev) => (prev === savedView ? prev : savedView));
+      setView(savedView);
     }
   }, []);
 
