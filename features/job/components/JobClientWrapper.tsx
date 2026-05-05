@@ -22,9 +22,11 @@ export default function JobClientWrapper({
   useEffect(() => {
     const savedView = localStorage.getItem('jobViewPreference') as
       | 'list'
-      | 'grid';
-    if (savedView && (savedView === 'list' || savedView === 'grid')) {
-      setView(savedView);
+      | 'grid'
+      | null;
+
+    if (savedView === 'list' || savedView === 'grid') {
+      setView((prev) => (prev === savedView ? prev : savedView));
     }
   }, []);
 
