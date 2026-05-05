@@ -1,36 +1,230 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Landit
 
-## Getting Started
+A full stack job application tracking tool built for developers
+actively searching for work. Track applications, manage contacts,
+and stay organized throughout your job search.
 
-First, run the development server:
+🔗 **Live Demo:** [landit-prod.vercel.app](https://landit-prod.vercel.app)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+## Features
+
+- **Authentication** — Google OAuth and email/password with email verification, forgot password and reset password flow
+- **Job Management** — Add, update, delete and track job applications by status
+- **Search & Filter** — Search by company or position, filter by application status
+- **Contacts** — Link people to job applications with name, position, location, LinkedIn, email, phone and profile image
+- **Dashboard** — Overview of your application pipeline at a glance
+
+## Tech Stack
+
+**Frontend**
+- Next.js 15 (App Router)
+- React 19
+- TypeScript
+- Chakra UI
+- React Hook Form + Zod
+
+**Backend**
+- Next.js Server Actions
+- MongoDB + Mongoose
+- NextAuth.js v5 (Google OAuth + Credentials)
+- Nodemailer + React Email (email templates)
+- Bcrypt (password hashing)
+- Jose (JWT)
+
+**Infrastructure**
+- Vercel (deployment)
+- MongoDB Atlas (production database)
+
+## Architecture
+
+This project follows a feature-based architecture where each domain
+owns its validation schema, business logic, server actions, and data
+access layer.
+
+```
+/features     → feature modules (auth, job, contact)
+/app/api      → API handlers where needed
+/components   → UI components organized by feature
+/lib          → shared utilities (db, auth, errors, email)
+/constants    → app-wide constants organized by feature
+/helper       → utility functions (date formatting)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**Request flow**
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Server Actions handle user interactions directly from components
+- Services contain business logic with no framework dependencies
+- Repositories handle all database queries in isolation
+- Components stay focused on UI — no fetch logic, no business rules
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+This separation means business logic is fully testable in isolation
+and the database layer can be swapped without touching services.
 
-## Learn More
+## Local Development
 
-To learn more about Next.js, take a look at the following resources:
+**Prerequisites**
+- Node.js 18+
+- MongoDB installed locally or a MongoDB Atlas account
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**1. Clone the repo**
+```bash
+git clone https://github.com/Carlos4152/job-tracker.git
+cd job-tracker
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+**2. Install dependencies**
+```bash
+npm install
+```
 
-## Deploy on Vercel
+**3. Set up environment variables**
+```bash
+cp .env.example .env.local
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Fill in your `.env.local`:
+```bash
+# Database
+MONGO_URI=mongodb://127.0.0.1:27017/job-tracker
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# Auth
+AUTH_SECRET=your_nextauth_secret
+NEXTAUTH_URL=http://localhost:3000
+
+# Google OAuth
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+
+# Email
+EMAIL_FROM=your_email
+EMAIL_SERVER_HOST=your_smtp_host
+EMAIL_SERVER_PORT=587
+EMAIL_SERVER_USER=your_smtp_user
+EMAIL_SERVER_PASSWORD=your_smtp_password
+
+# App
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+```
+
+**4. Run the development server**
+```bash
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000)
+
+---
+
+## Environment Variables
+
+| Variable | Description |
+|---|---|
+| `MONGO_URI` | MongoDB connection string |
+| `AUTH_SECRET` | Random secret for NextAuth v5 |
+| `NEXTAUTH_URL` | Base URL of your app |
+| `GOOGLE_CLIENT_ID` | Google OAuth client ID |
+| `GOOGLE_CLIENT_SECRET` | Google OAuth client secret |
+| `EMAIL_FROM` | Sender email address |
+| `EMAIL_SERVER_HOST` | SMTP host |
+| `EMAIL_SERVER_PORT` | SMTP port |
+| `EMAIL_SERVER_USER` | SMTP username |
+| `EMAIL_SERVER_PASSWORD` | SMTP password |
+| `NEXT_PUBLIC_APP_URL` | Public base URL |
+
+
+## Key Technical Decisions
+
+**Why Server Actions over API Routes**
+
+Server Actions colocate data mutations with the components that
+trigger them, reducing boilerplate and eliminating the need for
+a separate fetch layer for most operations. This aligns with the
+App Router model and keeps the codebase lean without sacrificing
+separation of concerns — business logic still lives in services,
+not in components.
+
+**Why Mongoose over Prisma**
+
+Prisma's MongoDB support is limited compared to its PostgreSQL
+support. Mongoose is the industry standard for MongoDB with Node.js
+and gives full control over schema design and queries.
+
+**Why feature-based architecture**
+
+Organizing by feature instead of by layer (controllers/models/services)
+means each feature is self-contained. Adding a new feature never
+requires touching existing modules — only a new folder is created.
+
+**Why React Email + Nodemailer**
+
+React Email allows writing email templates as React components,
+making them easier to maintain and preview. Nodemailer handles
+SMTP delivery and works with any email provider without vendor
+lock-in.
+
+## Project Structure
+```
+/app
+  /(auth)         → public auth pages (sign in, sign up, reset)
+  /(webapp)       → protected app pages (jobs, dashboard)
+  /api            → API handlers
+
+/features
+  /auth
+    /actions      → server actions
+    /components   → auth forms (SigninForm, SignupForm, etc)
+    /hooks        → useSignin, useSignup, etc
+    /models       → user.model.ts
+    /schemas      → auth.schema.ts
+    /services     → auth.service.ts
+    /types        → auth.types.ts
+    /constants    → auth.constants.ts
+    /helpers      → auth-specific utilities
+  /job
+    /actions      → server actions
+    /components   → JobTable, JobForm, JobCard, JobSearch
+    /hooks        → useJobs, useCreateJob, etc
+    /models       → job.model.ts
+    /schemas      → job.schema.ts
+    /services     → job.service.ts
+    /types        → job.types.ts
+    /constants    → job.constants.ts
+    /helpers      → job-specific utilities
+  /contact
+    /actions      → server actions
+    /components   → ContactForm, ContactCard
+    /hooks        → useContacts, useCreateContact, etc
+    /models       → contact.model.ts
+    /schemas      → contact.schema.ts
+    /services     → contact.service.ts
+    /types        → contact.types.ts
+    /constants    → contact.constants.ts
+    /helpers      → contact-specific utilities
+
+/lib
+  db.ts           → mongoose connection with caching
+  auth.ts         → NextAuth config
+  errors.ts       → custom error classes
+  jwt.ts          → JWT utilities
+  /email          → React Email templates + nodemailer config
+
+/components       → shared UI components used across features
+/constants        → app-wide constants
+/helper           → app-wide utility functions
+```
+
+## Roadmap
+
+- [ ] Dashboard with pipeline stats and charts
+- [ ] Export applications to CSV
+- [ ] Interview scheduling and reminders
+- [ ] Browser extension to save jobs from LinkedIn
+
+## Author
+
+**Carlos Lopez**
+
+[LinkedIn](https://www.linkedin.com/in/lopezcarlosdev/) ·
+[GitHub](https://github.com/Carlos4152) ·
+[Portfolio](https://carlos-swe.vercel.app/)
