@@ -1,6 +1,5 @@
 'use server';
 
-import { auth } from '@/lib/auth';
 import { revalidatePath } from 'next/cache';
 import {
   jobFormSchema,
@@ -11,20 +10,8 @@ import {
 import { jobService } from '../services/job.service';
 import { NotFoundError, UnauthorizedError } from '@/lib/errors';
 import { Job } from '../types/job.type';
-
-type ActionResult<T = unknown> = {
-  success: boolean;
-  message?: string;
-  errors?: Record<string, string[]>;
-  data?: T;
-};
-
-// ─── helper to get current user ────────────────────────────────────────────
-export async function getCurrentUserId(): Promise<string> {
-  const session = await auth();
-  if (!session?.user?.id) throw new UnauthorizedError('Not authenticated');
-  return session.user.id;
-}
+import { ActionResult } from '@/types/action-result';
+import { getCurrentUserId } from '@/lib/auth/get-current-userid';
 
 // ─── Create ────────────────────────────────────────────────────────────────
 export async function createJobAction(

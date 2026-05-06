@@ -1,6 +1,6 @@
 'use client';
 
-import { system } from '@/lib/theme';
+import { system } from '@/style/theme';
 import { ChakraProvider } from '@chakra-ui/react';
 import { ThemeProvider } from 'next-themes';
 import type { ThemeProviderProps } from 'next-themes';

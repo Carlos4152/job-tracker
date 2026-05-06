@@ -1,5 +1,5 @@
-import { connectDB } from '@/lib/db';
-import { Job } from '../models/job.model';
+import { connectDB } from '@/lib/database/db';
+import { Job } from '../../../lib/database/models/job.model';
 import { NotFoundError, UnauthorizedError } from '@/lib/errors';
 import { JobFormData, UpdateJobData } from '../schemas/job.schema';
 

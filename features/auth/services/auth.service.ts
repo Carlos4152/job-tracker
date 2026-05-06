@@ -4,10 +4,10 @@ import {
   ResetPasswordFormData,
   SignupFormData,
 } from '../schema/auth.schema';
-import { User } from '../models/user.model';
+import { User } from '../../../lib/database/models/user.model';
 import { ConflictError, UnauthorizedError } from '@/lib/errors';
-import { connectDB } from '@/lib/db';
-import { jwtService } from '@/lib/jwt';
+import { connectDB } from '@/lib/database/db';
+import { jwtService } from '@/lib/auth/jwt';
 import { sendEmail } from '@/lib/email/send';
 import ResetPasswordEmail from '@/lib/email/templates/reset-password';
 import PasswordUpdatedEmail from '@/lib/email/templates/password-updated';

@@ -9,8 +9,9 @@ import JobDescription from '@/features/job/components/job-detail/JobDescription'
 import JobSourceCard from '@/features/job/components/job-detail/JobSourceCard';
 import JobTimeline from '@/features/job/components/job-detail/JobTimeline';
 import JobCardSummary from '@/features/job/components/job-detail/JobCardSummary';
-import NetworkCard from '@/features/job/components/job-detail/NetworkCard';
 import BackLink from '@/components/shared/BackLink';
+import { GetNetworks } from '@/features/network/actions/get-networks';
+import { NetworkList } from '@/features/network/components/network-list';
 
 interface JobPageParams {
   params: {
@@ -34,6 +35,8 @@ export default async function page({ params }: JobPageParams) {
       ? fetchJobs.data.filter((j) => j._id !== job._id)
       : [];
 
+  const fetchNetworks = await GetNetworks(job._id);
+
   return (
     <Stack py={3} spaceY={4}>
       <BackLink path="/jobs" label="Back to jobs" />
@@ -49,7 +52,10 @@ export default async function page({ params }: JobPageParams) {
         <GridItem colSpan={{ lg: 4 }} spaceY={5}>
           <JobSourceCard job={job} />
           <Separator variant="dashed" />
-          <NetworkCard />
+          <NetworkList
+            networkData={fetchNetworks.data || []}
+            applicationId={job._id}
+          />
           <Separator variant="dashed" />
 
           <JobCardSummary jobs={otherJobs} />

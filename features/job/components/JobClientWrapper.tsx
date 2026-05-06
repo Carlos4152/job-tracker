@@ -4,7 +4,7 @@ import { Badge, HStack, Stack, Text } from '@chakra-ui/react';
 import { Job } from '../types/job.type';
 import JobToolBar from './JobToolBar';
 import JobCardList from './JobCardList';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface JobClientWrapperProps {
   jobs: Job[];
@@ -17,10 +17,18 @@ export default function JobClientWrapper({
   searchQuery = '',
   statusFilter = '',
 }: JobClientWrapperProps) {
-  const [view, setView] = useState<'list' | 'grid'>(() => {
+  const [view, setView] = useState<'list' | 'grid'>('grid');
+
+  useEffect(() => {
     const savedView = localStorage.getItem('jobViewPreference');
-    return savedView === 'list' || savedView === 'grid' ? savedView : 'grid';
-  });
+    if (savedView === 'list' || savedView === 'grid') {
+      setView(savedView);
+    }
+  }, []);
+
+  useEffect(() => {
+  localStorage.setItem('jobViewPreference', view);
+}, [view]);
 
   return (
     <Stack spaceY={5}>
