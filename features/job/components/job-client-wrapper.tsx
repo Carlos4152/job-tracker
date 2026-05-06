@@ -5,6 +5,8 @@ import { JobDTO } from '../types/job.type';
 import JobToolBar from './job-tool-bar';
 import JobCardList from './job-card-list';
 import { useEffect, useState } from 'react';
+import { GlobalEmptyState } from '@/components/shared/global-empty-state';
+import { LuBriefcaseBusiness } from 'react-icons/lu';
 
 interface JobClientWrapperProps {
   jobs: JobDTO[];
@@ -27,8 +29,8 @@ export default function JobClientWrapper({
   }, []);
 
   useEffect(() => {
-  localStorage.setItem('jobViewPreference', view);
-}, [view]);
+    localStorage.setItem('jobViewPreference', view);
+  }, [view]);
 
   return (
     <Stack spaceY={5}>
@@ -52,7 +54,19 @@ export default function JobClientWrapper({
         </HStack>
       )}
 
-      <JobCardList jobs={jobs || []} view={view} />
+      {jobs.length === 0 ? (
+        <GlobalEmptyState
+          icon={<LuBriefcaseBusiness />}
+          title="No jobs found"
+          description={
+            searchQuery || statusFilter
+              ? 'Try adjusting your search or filter to find what you are looking for'
+              : 'You have not added any jobs yet. Start by adding your first job application'
+          }
+        />
+      ) : (
+        <JobCardList jobs={jobs} view={view} />
+      )}
     </Stack>
   );
 }

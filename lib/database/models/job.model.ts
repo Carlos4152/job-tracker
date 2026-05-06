@@ -1,26 +1,26 @@
-import mongoose, { Schema, Document } from 'mongoose'
+import mongoose, { Schema, Document } from 'mongoose';
 
 export interface IJob extends Document {
-  userId: mongoose.Types.ObjectId
-  title: string
-  company: string
-  status: 'applied' | 'interview' | 'offer' | 'rejected'
-  platform: string
-  location: string
-  salary?: string
-  jobLink: string
-  companyWebsite?: string
-  companyLinkedIn?: string
-  description?: string
-  timeline: ITimelineEntry[]
-  createdAt: Date
-  updatedAt: Date
+  userId: mongoose.Types.ObjectId;
+  title: string;
+  company: string;
+  status: 'applied' | 'interview' | 'offer' | 'rejected';
+  platform: string;
+  location: string;
+  salary?: string;
+  jobLink: string;
+  companyWebsite?: string;
+  companyLinkedIn?: string;
+  description?: string;
+  timeline: ITimelineEntry[];
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface ITimelineEntry {
-  event: string
-  date: Date
-  note?: string
+  event: string;
+  date: Date;
+  note?: string;
 }
 
 const timelineSchema = new Schema<ITimelineEntry>(
@@ -30,7 +30,7 @@ const timelineSchema = new Schema<ITimelineEntry>(
     note: { type: String, default: null },
   },
   { _id: false },
-)
+);
 
 const jobSchema = new Schema<IJob>(
   {
@@ -57,7 +57,12 @@ const jobSchema = new Schema<IJob>(
     timeline: { type: [timelineSchema], default: [] },
   },
   { timestamps: true },
-)
+);
+
+jobSchema.pre('deleteOne', { document: true, query: false }, async function () {
+  const NetworkContact = mongoose.model('NetworkContact');
+  await NetworkContact.deleteMany({ applicationId: this._id });
+});
 
 export const Job =
-  mongoose.models.Job || mongoose.model<IJob>('Job', jobSchema)
+  mongoose.models.Job || mongoose.model<IJob>('Job', jobSchema);
