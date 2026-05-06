@@ -1,5 +1,5 @@
 'use client';
-import { Job } from '../../types/job.type';
+import { JobDTO } from '../../types/job.type';
 import {
   Avatar,
   Badge,
@@ -17,17 +17,17 @@ import {
 import { PLATFORMS } from '../../constants/job-platform';
 import { JOB_STATUS } from '../../constants/job-status';
 import Image from 'next/image';
-import { urlHelper } from '../../helper/job.helper';
+import { urlHelper } from '../../utils/job.helper';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import Link from 'next/link';
 import { FiEdit } from 'react-icons/fi';
 import { GoTrash } from 'react-icons/go';
 import { useConfirmDelete } from '@/components/shared/DeleteModal';
-import { deleteJobAction } from '../../actions/job.actions';
 import { toast } from '@/components/shared/toast';
 import { useRouter } from 'next/navigation';
+import { DeleteJob } from '../../actions/delete-job';
 
-export default function JobHeader({ job }: { job: Job }) {
+export default function JobDetailHeader({ job }: { job: JobDTO }) {
   const { confirmDelete } = useConfirmDelete();
   const router = useRouter();
   const {
@@ -58,7 +58,7 @@ export default function JobHeader({ job }: { job: Job }) {
         </Text>
       ),
       onConfirm: async () => {
-        const res = await deleteJobAction(job._id);
+        const res = await DeleteJob(job._id);
         if (!res.success) {
           toast.error('Error', res.message || 'Failed to delete client');
           throw new Error(res.message);

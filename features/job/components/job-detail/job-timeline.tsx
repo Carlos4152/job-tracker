@@ -1,7 +1,7 @@
 'use client';
 import { Box, Text, Timeline, Icon } from '@chakra-ui/react';
 import { LuClock } from 'react-icons/lu';
-import { timelineHelper } from '../../helper/job.helper';
+import { timelineHelper } from '../../utils/job.helper';
 import { date_format } from '@/helper/date_format';
 
 interface TimelineEvent {
@@ -13,7 +13,6 @@ interface TimelineEvent {
 interface JobTimelineProps {
   timeline: TimelineEvent[];
 }
-
 
 export default function JobTimeline({ timeline }: JobTimelineProps) {
   if (!timeline || timeline.length === 0) {

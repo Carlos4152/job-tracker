@@ -1,8 +1,8 @@
 'use client';
 import Image from 'next/image';
 import { PLATFORMS } from '../../constants/job-platform';
-import { urlHelper } from '../../helper/job.helper';
-import { Job } from '../../types/job.type';
+import { urlHelper } from '../../utils/job.helper';
+import { JobDTO } from '../../types/job.type';
 import {
   Avatar,
   Badge,
@@ -17,7 +17,7 @@ import {
 import Link from 'next/link';
 import { TbExternalLink } from 'react-icons/tb';
 
-export default function JobCardSummary({ jobs }: { jobs: Job[] }) {
+export default function CardSummary({ jobs }: { jobs: JobDTO[] }) {
   return (
     <Stack gap={3}>
       <Heading>Other jobs</Heading>

@@ -1,17 +1,15 @@
-import {
-  getJobByIdAction,
-  getJobsAction,
-} from '@/features/job/actions/job.actions';
 import { Stack, Grid, GridItem, Separator } from '@chakra-ui/react';
-import JobHeader from '@/features/job/components/job-detail/JobHeader';
+import JobHeader from '@/features/job/components/job-detail/job-detail-header';
 import { notFound } from 'next/navigation';
-import JobDescription from '@/features/job/components/job-detail/JobDescription';
-import JobSourceCard from '@/features/job/components/job-detail/JobSourceCard';
-import JobTimeline from '@/features/job/components/job-detail/JobTimeline';
-import JobCardSummary from '@/features/job/components/job-detail/JobCardSummary';
+import JobDescription from '@/features/job/components/job-detail/job-description';
+import JobSourceCard from '@/features/job/components/job-detail/job-source';
+import JobTimeline from '@/features/job/components/job-detail/job-timeline';
+import JobCardSummary from '@/features/job/components/job-detail/card-summary';
 import BackLink from '@/components/shared/BackLink';
 import { GetNetworks } from '@/features/network/actions/get-networks';
 import { NetworkList } from '@/features/network/components/network-list';
+import { GetJob } from '@/features/job/actions/get-job';
+import { GetJobs } from '@/features/job/actions/get-jobs';
 
 interface JobPageParams {
   params: {
@@ -21,8 +19,8 @@ interface JobPageParams {
 
 export default async function page({ params }: JobPageParams) {
   const { id } = await params;
-  const response = await getJobByIdAction(id);
-  const fetchJobs = await getJobsAction();
+  const response = await GetJob(id);
+  const fetchJobs = await GetJobs();
 
   if (!response.success || !response.data) {
     notFound();
@@ -45,7 +43,7 @@ export default async function page({ params }: JobPageParams) {
         <GridItem colSpan={{ lg: 8 }}>
           <Stack gap={5}>
             <JobHeader job={job} />
-            <JobDescription content={job.description} />
+            <JobDescription content={job.description || ''} />
           </Stack>
         </GridItem>
 

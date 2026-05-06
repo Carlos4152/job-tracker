@@ -10,13 +10,14 @@ import { TextStyleKit } from '@tiptap/extension-text-style';
 import Subscript from '@tiptap/extension-subscript';
 import Superscript from '@tiptap/extension-superscript';
 import { JobFormData, jobFormSchema } from '../schemas/job.schema';
-import { createJobAction, updateJobAction } from '../actions/job.actions';
 import { useRouter } from 'next/navigation';
 import { toast } from '@/components/shared/toast';
-import { Job } from '../types/job.type';
+import { JobDTO } from '../types/job.type';
 import { useEffect } from 'react';
+import { UpdateJob } from '../actions/update-job';
+import { AddJob } from '../actions/add-job';
 
-export default function useJobForm(initialData?: Job) {
+export default function useJobForm(initialData?: JobDTO) {
   const router = useRouter();
   const isEdit = !!initialData?._id;
 
@@ -87,9 +88,9 @@ export default function useJobForm(initialData?: Job) {
     let result;
 
     if (isEdit && initialData?._id) {
-      result = await updateJobAction(initialData._id, data);
+      result = await UpdateJob(initialData._id, data);
     } else {
-      result = await createJobAction(data);
+      result = await AddJob(data);
     }
 
     if (!result.success) {

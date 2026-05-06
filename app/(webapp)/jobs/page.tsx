@@ -1,5 +1,5 @@
-import { getJobsAction } from '@/features/job/actions/job.actions';
-import JobClientWrapper from '@/features/job/components/JobClientWrapper';
+import { GetJobs } from '@/features/job/actions/get-jobs';
+import JobClientWrapper from '@/features/job/components/job-client-wrapper';
 import { Box, Heading, Stack, Text } from '@chakra-ui/react';
 
 interface PageProps {
@@ -13,13 +13,15 @@ export default async function page({ searchParams }: PageProps) {
   const { q, status } = await searchParams;
   const query = q || '';
   const statusFilter = status || '';
-  const fetchJobs = await getJobsAction(query, statusFilter);
+  const fetchJobs = await GetJobs(query, statusFilter);
 
   return (
     <Stack spaceY={5}>
       <Box>
         <Heading>My Job Applications</Heading>
-        <Text color='fg.subtle'>Track and manage your applications in one place.</Text>
+        <Text color="fg.subtle">
+          Track and manage your applications in one place.
+        </Text>
       </Box>
 
       <JobClientWrapper

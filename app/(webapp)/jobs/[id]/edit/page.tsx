@@ -1,5 +1,5 @@
-import { getJobByIdAction } from '@/features/job/actions/job.actions';
-import JobForm from '@/features/job/components/form/JobForm';
+import { GetJob } from '@/features/job/actions/get-job';
+import JobForm from '@/features/job/components/form/job-form';
 import {
   Stack,
   Link as ChakraLink,
@@ -17,7 +17,7 @@ interface JobPageParams {
 
 export default async function page({ params }: JobPageParams) {
   const { id } = await params;
-  const response = await getJobByIdAction(id);
+  const response = await GetJob(id);
 
   return (
     <Stack py={3} spaceY={4}>
@@ -29,9 +29,7 @@ export default async function page({ params }: JobPageParams) {
 
       <Box>
         <Heading>Edit Application</Heading>
-        <Text color="fg.subtle">
-          Make changes to your application.
-        </Text>
+        <Text color="fg.subtle">Make changes to your application.</Text>
       </Box>
       <Box width={{ lg: '80%' }}>
         <JobForm isEdit={true} initialData={response.data} />

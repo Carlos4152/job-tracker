@@ -1,11 +1,11 @@
 import { Grid } from '@chakra-ui/react';
 
-import { Job } from '../types/job.type';
-import JobCard from './JobCard';
-import JobCard2 from './JobCard2';
+import { JobDTO } from '../types/job.type';
+import JobCard from './job-card';
+import JobCard2 from './job-card2';
 
 interface JobCardListProps {
-  jobs: Job[];
+  jobs: JobDTO[];
   view: 'list' | 'grid';
 }
 

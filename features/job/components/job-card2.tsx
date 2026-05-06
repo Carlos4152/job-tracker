@@ -17,25 +17,22 @@ import {
   IconButton,
   Separator,
 } from '@chakra-ui/react';
-import {
-  IoCashOutline,
-  IoEyeOutline,
-} from 'react-icons/io5';
+import { IoCashOutline, IoEyeOutline } from 'react-icons/io5';
 import { FaLink } from 'react-icons/fa6';
 import Link from 'next/link';
 import Image from 'next/image';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { FiEdit } from 'react-icons/fi';
 import { GoTrash } from 'react-icons/go';
-import { Job } from '../types/job.type';
+import { JobDTO } from '../types/job.type';
 import { PLATFORMS } from '../constants/job-platform';
 import { JOB_STATUS } from '../constants/job-status';
-import { urlHelper } from '../helper/job.helper';
+import { urlHelper } from '../utils/job.helper';
 import { useConfirmDelete } from '@/components/shared/DeleteModal';
 import { toast } from '@/components/shared/toast';
-import { deleteJobAction } from '../actions/job.actions';
+import { DeleteJob } from '../actions/delete-job';
 
-export default function JobCard2({ job }: { job: Job }) {
+export default function JobCard2({ job }: { job: JobDTO }) {
   const { confirmDelete } = useConfirmDelete();
 
   const {
@@ -66,7 +63,7 @@ export default function JobCard2({ job }: { job: Job }) {
         </Text>
       ),
       onConfirm: async () => {
-        const res = await deleteJobAction(job._id);
+        const res = await DeleteJob(job._id);
         if (!res.success) {
           toast.error('Error', res.message || 'Failed to delete client');
           throw new Error(res.message);
@@ -155,9 +152,8 @@ export default function JobCard2({ job }: { job: Job }) {
         <Stack
           direction={{ md: 'row' }}
           flexWrap={{ base: 'wrap', md: 'nowrap' }}
-          
         >
-          <Box display='flex'>
+          <Box display="flex">
             <Badge textTransform="capitalize">
               <Image
                 src={selectedPlatform?.img || PLATFORMS[0]?.img}

@@ -6,7 +6,7 @@ import { PiReadCvLogo } from 'react-icons/pi';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { SearchInput } from '@/components/shared/SearchInput';
-import SelectStatus from './form/SelectStatus';
+import SelectStatus from './form/status-select-input';
 import { IoGridOutline } from 'react-icons/io5';
 
 interface JobToolBarProps {

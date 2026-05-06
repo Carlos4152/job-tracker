@@ -11,10 +11,10 @@ import { BiLogoLinkedinSquare } from 'react-icons/bi';
 import { LuExternalLink } from 'react-icons/lu';
 import { TfiWorld } from 'react-icons/tfi';
 import { MdOutlineDocumentScanner } from 'react-icons/md';
-import { Job } from '../../types/job.type';
-import { urlHelper } from '../../helper/job.helper';
+import { JobDTO } from '../../types/job.type';
+import { urlHelper } from '../../utils/job.helper';
 
-export default function JobSourceCard({ job }: { job: Job }) {
+export default function JobSource({ job }: { job: JobDTO }) {
   return (
     <Stack gap={3}>
       <Heading>Company Resources</Heading>

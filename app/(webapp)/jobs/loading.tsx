@@ -1,4 +1,4 @@
-import JobSkeletonPage from '@/features/job/components/skeleton/JobPageSkeleton';
+import JobSkeletonPage from '@/features/job/components/skeleton/job-page-skeleton';
 
 export default function JobsLoading() {
   return <JobSkeletonPage />;

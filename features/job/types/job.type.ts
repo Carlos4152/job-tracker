@@ -12,18 +12,20 @@ interface TimelineEvent {
   note: string | null;
 }
 
-export interface Job {
+export interface JobDTO {
   _id: string;
+  userId: string;
   title: string;
   company: string;
-  status: JobStatus;
-  salary: string;
+  status: 'applied' | 'interview' | 'offer' | 'rejected';
+  platform: string;
   location: string;
-  platform: JobPlatform;
+  salary?: string;
   jobLink: string;
-  timeline: TimelineEvent[];
   companyWebsite?: string;
   companyLinkedIn?: string;
-  description: string;
-  appliedDate: string;
+  description?: string;
+  timeline: TimelineEvent[];
+  createdAt: string;
+  updatedAt: string;
 }

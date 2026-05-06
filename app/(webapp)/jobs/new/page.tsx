@@ -1,4 +1,4 @@
-import JobForm from '@/features/job/components/form/JobForm';
+import JobForm from '@/features/job/components/form/job-form';
 import {
   Stack,
   Link as ChakraLink,

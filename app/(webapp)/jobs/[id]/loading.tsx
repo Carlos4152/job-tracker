@@ -5,7 +5,7 @@ import {
   JobSourceCardSkeleton,
   JobTimelineSkeleton,
   NetworkCardSkeleton,
-} from '@/features/job/components/skeleton/JobDetailSkeleton';
+} from '@/features/job/components/skeleton/job-detail-skeleton';
 import {
   Stack,
   Box,

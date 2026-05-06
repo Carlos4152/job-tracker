@@ -6,7 +6,7 @@ import {
   Heading,
   GridItem,
 } from '@chakra-ui/react';
-import { CardSkeleton } from './JobCardSkeleton';
+import { CardSkeleton } from './job-card-skeleton';
 
 export default function JobSkeletonPage() {
   return (

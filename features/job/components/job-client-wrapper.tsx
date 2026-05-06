@@ -1,13 +1,13 @@
 'use client';
 
 import { Badge, HStack, Stack, Text } from '@chakra-ui/react';
-import { Job } from '../types/job.type';
-import JobToolBar from './JobToolBar';
-import JobCardList from './JobCardList';
+import { JobDTO } from '../types/job.type';
+import JobToolBar from './job-tool-bar';
+import JobCardList from './job-card-list';
 import { useEffect, useState } from 'react';
 
 interface JobClientWrapperProps {
-  jobs: Job[];
+  jobs: JobDTO[];
   searchQuery?: string;
   statusFilter?: string;
 }
