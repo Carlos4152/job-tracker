@@ -12,6 +12,9 @@ export async function SignIn(userData: LoginFormData) {
   const user = await User.findOne({ email: userData.email });
   if (!user) throw new UnauthorizedError('Invalid credentials');
 
+  if (user.provider !== 'credentials')
+    throw new UnauthorizedError('Please sign in with Google');
+
   const isValid = await bcrypt.compare(userData.password, user.password);
   if (!isValid) throw new UnauthorizedError('Invalid credentials');
 

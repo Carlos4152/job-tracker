@@ -17,7 +17,11 @@ export async function GoogleUser(user: GoogleUserData) {
 
   try {
     const existingUser = await User.findOne({ email: user.email });
-    if (existingUser) return true;
+
+    if (existingUser) {
+      if (existingUser.provider !== 'google') return false;
+      return true;
+    }
 
     const [firstName, ...lastNameParts] = (user.name ?? '').split(' ');
 
