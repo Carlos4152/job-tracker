@@ -3,7 +3,6 @@ import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 import Google from 'next-auth/providers/google';
 import { User } from '@/lib/database/models/user.model';
-import { authService } from '@/features/auth/services/auth.service';
 import { connectDB } from '../database/db';
 import { SignIn } from '@/features/auth/actions/sign-in';
 import { GoogleUser } from '@/features/auth/actions/google-user';
