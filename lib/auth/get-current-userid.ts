@@ -1,3 +1,4 @@
+import { UnauthorizedError } from '../errors';
 import { auth } from './auth';
 
 export async function getCurrentUserId(): Promise<string> {
