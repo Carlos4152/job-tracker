@@ -16,7 +16,7 @@ import {
   Separator,
 } from '@chakra-ui/react';
 import { PasswordInput } from '@/components/ui/password-input';
-import useLogin from '@/features/auth/hooks/useSignin';
+import useLogin from '@/features/auth/hooks/use-sign-in';
 import GoogleButton from '../../../components/shared/GoogleButton';
 import Logo from '@/components/shared/Logo';
 

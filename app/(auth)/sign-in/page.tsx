@@ -1,4 +1,4 @@
-import { SigninForm } from '@/features/auth/components/SigninForm';
+import { SigninForm } from '@/features/auth/components/sign-in-form';
 
 function page() {
   return <SigninForm />;

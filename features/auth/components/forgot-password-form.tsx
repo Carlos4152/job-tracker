@@ -14,7 +14,7 @@ import {
   Link as ChakraLink,
   HStack,
 } from '@chakra-ui/react';
-import { useForgotPassword } from '@/features/auth/hooks/useForgotPassword';
+import { useForgotPassword } from '@/features/auth/hooks/use-forgot-password';
 import Logo from '@/components/shared/Logo';
 
 export function ForgotPasswordForm() {

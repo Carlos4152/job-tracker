@@ -7,7 +7,7 @@ import {
   forgotPasswordSchema,
   ForgotPasswordFormData,
 } from '@/features/auth/schema/auth.schema';
-import { forgotPasswordAction } from '../actions/auth.actions';
+import { ForgotPassword } from '../actions/forgot-password';
 
 export function useForgotPassword() {
   const {
@@ -23,7 +23,7 @@ export function useForgotPassword() {
   });
 
   const onSubmit = async (data: ForgotPasswordFormData) => {
-    const result = await forgotPasswordAction(data);
+    const result = await ForgotPassword(data);
 
     if (!result.success) {
       toast.error('Request Failed', result.message || 'Something went wrong.');

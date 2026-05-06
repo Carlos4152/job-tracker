@@ -5,6 +5,8 @@ import Google from 'next-auth/providers/google';
 import { User } from '@/lib/database/models/user.model';
 import { authService } from '@/features/auth/services/auth.service';
 import { connectDB } from '../database/db';
+import { SignIn } from '@/features/auth/actions/sign-in';
+import { GoogleUser } from '@/features/auth/actions/google-user';
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
@@ -25,7 +27,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         if (!parsed.success) return null;
 
-        const result = await authService.signin(parsed.data);
+        const result = await SignIn(parsed.data);
         if (!result?.user) return null;
 
         return {
@@ -46,7 +48,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   callbacks: {
     async signIn({ user, account }) {
       if (account?.provider === 'google') {
-        return authService.upsertGoogleUser(user);
+        return GoogleUser(user);
       }
       return true;
     },
